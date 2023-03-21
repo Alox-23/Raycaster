@@ -7,9 +7,11 @@ class PLAYER:
         self.game = game
         self.x, self.y = PLAYER_POS
         self.angle = PLAYER_ANGLE
+        self.vert_angle = 0
+        self.floor = 0
 
     def check_wall(self, x, y):
-        return (x, y) not in self.game.map.world_map
+        return (x, y) not in self.game.map.world_map[self.floor]
 
     def check_wall_collision(self, dx, dy):
         if self.check_wall(int(self.x + dx), int(self.y)):
@@ -44,6 +46,10 @@ class PLAYER:
             self.angle -= PLAYER_ROT_SPEED * self.game.delta_time
         if keys[pygame.K_RIGHT]:
             self.angle += PLAYER_ROT_SPEED * self.game.delta_time
+        if keys[pygame.K_UP]:
+            self.vert_angle -= PLAYER_VERT_ROT_SPEED * self.game.delta_time
+        if keys[pygame.K_DOWN]:
+            self.vert_angle += PLAYER_VERT_ROT_SPEED * self.game.delta_time
         self.angle %= math.tau
 
     def draw(self):

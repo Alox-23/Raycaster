@@ -21,7 +21,7 @@ class RayCasting:
                     offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
                 wall_column = pygame.transform.scale(wall_column,
                                                     (SCALE, proj_height))
-                wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4- (HALF_HEIGHT  // 4) - (floor * proj_height))
+                wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4- (HALF_HEIGHT  // 4) - (floor * proj_height)-self.game.player.vert_angle)
 
                 self.objects_to_render.append((depth, wall_column, wall_pos))
 
