@@ -13,7 +13,8 @@ class RayCasting:
 
     def get_objects_to_render(self):
         self.objects_to_render = []
-        for floor in range(len(self.game.map.world_map)):
+        floor = len(self.game.map.world_map)-1
+        for i in range(len(self.game.map.world_map)):
             for ray, values in enumerate(self.ray_casting_result[floor]):
                 depth, proj_height, texture, offset = values
 
@@ -24,6 +25,7 @@ class RayCasting:
                 wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4- (HALF_HEIGHT  // 4) - (floor * proj_height)-self.game.player.vert_angle)
 
                 self.objects_to_render.append((depth, wall_column, wall_pos))
+            floor -= 1
 
     def ray_cast(self, map):
         ray_casting_result = []

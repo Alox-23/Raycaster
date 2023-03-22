@@ -14,7 +14,6 @@ class ObjectRenderer:
 
     def render_game_objects(self):
         list_objects = self.game.ray.objects_to_render
-        #rint(len(list_objects))
         for depth, img, pos in list_objects:
             self.screan.blit(img, pos)
 
