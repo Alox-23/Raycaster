@@ -15,6 +15,7 @@ class RayCasting:
         self.objects_to_render = []
         floor = len(self.game.map.world_map)-1
         for i in range(len(self.game.map.world_map)):
+            print(floor)
             for ray, values in enumerate(self.ray_casting_result[floor]):
                 depth, proj_height, texture, offset = values
 
@@ -96,6 +97,7 @@ class RayCasting:
         return ray_casting_result
 
     def update(self):
-        self.ray_casting_result[0] = self.ray_cast(self.game.map.world_map[0])
-        self.ray_casting_result[1] = self.ray_cast(self.game.map.world_map[1])
+        for i in range(len(self.game.map.world_map)):
+            self.ray_casting_result[i] = self.ray_cast(self.game.map.world_map[i])
+        
         self.get_objects_to_render()
