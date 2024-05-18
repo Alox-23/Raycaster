@@ -15,17 +15,19 @@ class RayCasting:
         self.objects_to_render = []
         floor = len(self.game.map.world_map)-1
         for i in range(len(self.game.map.world_map)):
-            print(floor)
             for ray, values in enumerate(self.ray_casting_result[floor]):
                 depth, proj_height, texture, offset = values
+                if depth < MAX_DEPTH-13:
+                    wall_column = self.textures[texture].subsurface(
+                        offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
+                    wall_column = pygame.transform.scale(wall_column,
+                                                        (SCALE, proj_height))
+                    wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((floor-0.5) * proj_height)-self.game.player.vert_angle)
 
-                wall_column = self.textures[texture].subsurface(
-                    offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
-                wall_column = pygame.transform.scale(wall_column,
-                                                    (SCALE, proj_height))
-                wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4- (HALF_HEIGHT  // 4) - (floor * proj_height)-self.game.player.vert_angle)
+                    #wall_column.convert()
+                    #wall_column.set_alpha(depth*-10 + 300)
 
-                self.objects_to_render.append((depth, wall_column, wall_pos))
+                    self.objects_to_render.append((depth, wall_column, wall_pos))
             floor -= 1
 
     def ray_cast(self, map):
@@ -67,13 +69,14 @@ class RayCasting:
             dy = delta_depth * sin_a
 
             for i in range(MAX_DEPTH):
-                tile_vert = int(x_vert), int(y_vert)
-                if tile_vert in map:
-                    texture_vert = map[tile_vert]
-                    break
-                x_vert += dx
-                y_vert += dy
-                depth_vert += delta_depth
+                if i < 20:
+                    tile_vert = int(x_vert), int(y_vert)
+                    if tile_vert in map:
+                        texture_vert = map[tile_vert]
+                        break
+                    x_vert += dx
+                    y_vert += dy
+                    depth_vert += delta_depth
 
             #depth
             if depth_vert < depth_hor:
@@ -84,6 +87,8 @@ class RayCasting:
                 depth, texture = depth_hor, texture_hor
                 x_hor %= 1
                 offset = (1 - x_hor) if sin_a > 0 else x_hor
+
+
 
             #remove fishbowl effect
             depth *= math.cos(self.game.player.angle - ray_angle)

@@ -1,3 +1,0 @@
-make textures hide minimap
-sky
-cats
