@@ -43,7 +43,7 @@ class ObjectRenderer:
 
     def load_wall_textures(self):
         return {
-            1: self.get_texture_from_tileset(self.texture_path+'Textures-16.png'),
+            1: self.get_texture(self.texture_path+'wall.png'),
             2: self.get_texture(self.texture_path+'wall2.png'),
             3: self.get_texture_from_tileset(self.texture_path+"Textures-16.png", pos = (0, -10))
         }
