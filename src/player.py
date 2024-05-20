@@ -19,6 +19,8 @@ class PLAYER:
             self.x += dx
         if self.check_wall(int(self.x), int(self.y + dy * scale)):
             self.y += dy
+        
+        self.game.map.check_player_door_collision(self.floor, int(self.x + dx * scale), int(self.y + dy * scale))
 
     def movement(self):
         sin_a = math.sin(self.angle)
@@ -56,7 +58,6 @@ class PLAYER:
         self.angle %= math.tau
 
     def draw(self):
-
         pygame.draw.circle(self.game.screan, 'green', (self.x * 100, self.y * 100), 15)
 
     def update(self):

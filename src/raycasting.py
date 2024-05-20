@@ -53,7 +53,7 @@ class RayCasting:
             for i in range(MAX_DEPTH):
                 tile_hor = int(x_hor), int(y_hor)
                 if tile_hor in map:
-                    texture_hor = map[tile_hor]
+                    texture_hor = map[tile_hor].value
                     break
                 x_hor += dx
                 y_hor += dy
@@ -72,7 +72,7 @@ class RayCasting:
                 if i < 20:
                     tile_vert = int(x_vert), int(y_vert)
                     if tile_vert in map:
-                        texture_vert = map[tile_vert]
+                        texture_vert = map[tile_vert].value
                         break
                     x_vert += dx
                     y_vert += dy

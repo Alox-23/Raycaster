@@ -35,7 +35,7 @@ class ObjectRenderer:
         return pygame.transform.scale(texture, res)
     
     @staticmethod
-    def get_texture_from_tileset(path, res=(TEXTURE_SIZE, TEXTURE_SIZE), pos = (0,-9)):
+    def get_texture_from_tileset(path, pos = (0,-9), res=(TEXTURE_SIZE, TEXTURE_SIZE)):
         tileset = pygame.image.load(path)
         image = pygame.Surface(res)
         image.blit(tileset, (pos[0]*res[0], pos[1]*res[1]))
@@ -45,5 +45,5 @@ class ObjectRenderer:
         return {
             1: self.get_texture_from_tileset(self.texture_path+'Textures-16.png'),
             2: self.get_texture(self.texture_path+'wall2.png'),
-            3: self.get_texture(self.texture_path+"wall3.png")
+            3: self.get_texture_from_tileset(self.texture_path+"Textures-16.png", pos = (0, -10))
         }

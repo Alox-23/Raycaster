@@ -1,4 +1,5 @@
 import pygame
+import json
 
 _ = False
 
@@ -148,17 +149,70 @@ mini_map =  [
 """
 
 class Map:
-
     def __init__(self, game):
         self.game = game
-        self.mini_map = mini_map
-        self.world_map = {}
-        self.get_map()
+        self.get_data("data/levels/level.json")
+        self.active_level = Level(game, self.data)
+        self.set_level()
 
-    def get_map(self):
+    def set_level(self):
+        self.world_map = self.active_level.level_map
+    
+    def get_data(self, level_path):
+        with open(level_path, "r") as f:
+            self.data = json.load(f)
+
+    def check_player_door_collision(self, floor, x, y):
+        print(x, y)
+        print(self.world_map.get(floor))
+        if (x, y) in self.world_map[floor] and self.world_map[floor][(x, y)].value in self.data["doors"]:
+            self.change_level(self.world_map[floor][(x,y)].level)
+
+    def change_level(self, level_path, inside = False):
+        self.get_data("data/levels/"+level_path)
+        self.active_level = Level(self.game, self.data)
+        self.set_level()
+
+class Level:
+    def __init__(self, game, data):
+        self.game = game
+        self.data = data
+        self.mini_map =  data["level"]
+        self.level_map = {}
+        self.get_level()
+
+    def get_level(self):
+        print("level: ")
         for floor_num, floor in enumerate(self.mini_map):
-            self.world_map[floor_num] = {}
+            self.level_map[floor_num] = {}
+            print("floor: ")
             for j, row in enumerate(floor):
                 for i, value, in enumerate(row):
-                    if value:
-                        self.world_map[floor_num][(i, j)] = value
+                
+                    if value in self.data["doors"]:
+                        self.level_map[floor_num][(i, j)] = Door(value, self.data["door-level"][str(value)])
+                        print(
+                            value, self.data["door-level"],
+                            end = ""
+                        )
+                    elif value:
+                        self.level_map[floor_num][(i, j)] = Tile(value)
+                        print(
+                            value,
+                            end = ""
+                        )
+                    else:
+                        print(
+                            0,
+                            end = ""
+                        )
+                print()
+
+class Tile:
+    def __init__(self, value):
+        self.value = value
+
+class Door(Tile):
+    def __init__(self, value, level = None):
+        self.value = value
+        self.level = level
