@@ -25,7 +25,7 @@ class ObjectRenderer:
         pygame.draw.rect(self.screen, FLOOR_COLOR, (0, HALF_HEIGHT-self.game.player.vert_angle-50, WIDTH, HEIGHT))
 
     def render_game_objects(self):
-        list_objects = self.game.ray.objects_to_render
+        list_objects = sorted(self.game.raycasting.objects_to_render, key = lambda t: t[0], reverse=True)
         for depth, img, pos in list_objects:
             self.screen.blit(img, pos)
 
@@ -33,10 +33,17 @@ class ObjectRenderer:
     def get_texture(path, res=(TEXTURE_SIZE, TEXTURE_SIZE)):
         texture = pygame.image.load(path).convert_alpha()
         return pygame.transform.scale(texture, res)
+    
+    @staticmethod
+    def get_texture_from_tileset(path, res=(TEXTURE_SIZE, TEXTURE_SIZE), pos = (0,-9)):
+        tileset = pygame.image.load(path)
+        image = pygame.Surface(res)
+        image.blit(tileset, (pos[0]*res[0], pos[1]*res[1]))
+        return image
 
     def load_wall_textures(self):
         return {
-            1: self.get_texture(self.texture_path+'wall.png'),
+            1: self.get_texture_from_tileset(self.texture_path+'Textures-16.png'),
             2: self.get_texture(self.texture_path+'wall2.png'),
             3: self.get_texture(self.texture_path+"wall3.png")
         }

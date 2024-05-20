@@ -53,7 +53,7 @@ class PLAYER:
             self.vert_angle -= PLAYER_VERT_ROT_SPEED * self.game.delta_time
         if keys[pygame.K_DOWN] and self.vert_angle <= 170:
             self.vert_angle += PLAYER_VERT_ROT_SPEED * self.game.delta_time
-        #self.angle %= math.tau
+        self.angle %= math.tau
 
     def draw(self):
 
