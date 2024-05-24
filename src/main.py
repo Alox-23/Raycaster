@@ -19,7 +19,7 @@ class GAME:
     def new_game(self):
         self.map = Map(self)
         self.player = PLAYER(self)
-        self.object_renderer = ObjectRenderer(self)
+        self.object_renderer = ObjectRenderer(self, self.map.data)
         self.raycasting = RayCasting(self)
         self.static_sprite = SpriteObject(self)
 
@@ -32,7 +32,6 @@ class GAME:
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f} FPS')
 
     def draw(self):
-        self.screan.fill('black')
         self.object_renderer.draw()
 
     def check_events(self):

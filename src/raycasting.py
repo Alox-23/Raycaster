@@ -17,15 +17,28 @@ class RayCasting:
         for i in range(len(self.game.map.world_map)):
             for ray, values in enumerate(self.ray_casting_result[floor]):
                 depth, proj_height, texture, offset = values
-                if depth < MAX_DEPTH-13:
-                    wall_column = self.textures[texture].subsurface(
+                if depth < MAX_DEPTH:
+                    wall_column_text = self.textures[texture].subsurface(
                         offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
-                    wall_column = pygame.transform.scale(wall_column,
+                    wall_column_text = pygame.transform.scale(wall_column_text,
                                                         (SCALE, proj_height))
+
+                    wall_column_dark = self.textures[texture].subsurface(
+                        offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
+                    wall_column_dark = pygame.transform.scale(wall_column_dark,
+                                                        (SCALE, proj_height))
+                    wall_column_dark.fill(self.game.object_renderer.fog_color)
+                    
                     wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((floor-0.5) * proj_height)-self.game.player.vert_angle)
 
-                    #wall_column.convert()
-                    #wall_column.set_alpha(depth*-10 + 300)
+                    wall_column_text.set_alpha(depth*-15 + 300)
+
+                    wall_column = pygame.Surface((SCALE, proj_height))
+
+                    wall_column.blit(wall_column_dark, (0,0))
+                    wall_column.blit(wall_column_text, (0,0))
+
+                    wall_column.set_colorkey(self.game.object_renderer.fog_color)
 
                     self.objects_to_render.append((depth, wall_column, wall_pos))
             floor -= 1

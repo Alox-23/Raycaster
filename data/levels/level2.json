@@ -1,4 +1,12 @@
 {
+    "floor-color" : [80,80,80],
+
+    "roof-color" : [80,80,80],
+
+    "fog-color" : [255,255,255],
+
+    "sky" : "sky.png",
+
     "doors" : [3],
 
     "door-level" : {

@@ -4,12 +4,54 @@ from settings import *
 
 class ObjectRenderer:
 
-    def __init__(self, game):
+    def __init__(self, game, data):
         self.game = game
         self.screen = game.screan
         self.texture_path = "assets/textures/"
         self.wall_textures = self.load_wall_textures()
-        self.sky_image = self.get_texture(self.texture_path+"sky.png", (WIDTH, HEIGHT))
+
+        self.fog_color = FOG_COLOR
+        self.init_sky(sky_path = data["sky"], roof_color = data["roof-color"], fog_color = data["fog-color"], floor_color = data["floor-color"])
+
+    def init_sky(self, sky_path = "sky.png", floor_color = FLOOR_COLOR, roof_color = (1,1,1, 255), fog_color = FOG_COLOR):
+        if sky_path != 0:
+            self.sky_image = self.get_texture(self.texture_path+sky_path, (WIDTH, HEIGHT))
+        else:
+            self.sky_image = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA).convert_alpha()
+            self.sky_image.fill(roof_color)
+
+        self.floor_image = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA).convert_alpha()
+        self.floor_image.fill(floor_color)
+
+        self.fog_height = 30
+        self.fog_color = fog_color
+
+        if sky_path != 0:
+            for x in range(WIDTH):
+                for y in range(HALF_HEIGHT):
+                    a = self.sky_image.get_at((x, y))
+                    a[3] = int(y / HALF_HEIGHT * 255)
+                    self.sky_image.set_at((x, HEIGHT-y), a)
+        
+        else:
+            for x in range(WIDTH):
+                for y in range(self.fog_height):
+                    a = self.sky_image.get_at((x, y))
+                    if y % 2 == 0:
+                        a[3] = int(y / self.fog_height * 255)
+                    else:
+                        a[3] = int((y-1) / self.fog_height * 255)
+                    self.sky_image.set_at((x, HEIGHT-y), a)
+
+        for x in range(WIDTH):
+            for y in range(self.fog_height):
+                a = self.floor_image.get_at((x, y))
+                if y % 2 == 0:
+                    a[3] = int(y / self.fog_height * 255)
+                else:
+                    a[3] = int((y-1) / self.fog_height * 255)
+                self.floor_image.set_at((x, y), a)
+
         self.sky_offset = 0
 
     def draw(self):
@@ -17,12 +59,13 @@ class ObjectRenderer:
         self.render_game_objects()
 
     def draw_background(self):
-        print(self.game.player.vert_angle)
+        self.screen.fill(self.fog_color)
+
         self.sky_offset = (8.0 * math.degrees(self.game.player.angle)) % WIDTH
         self.screen.blit(self.sky_image, (-self.sky_offset, 0-self.game.player.vert_angle-HALF_HEIGHT))
         self.screen.blit(self.sky_image, (-self.sky_offset + WIDTH, 0-self.game.player.vert_angle-HALF_HEIGHT))
 
-        pygame.draw.rect(self.screen, FLOOR_COLOR, (0, HALF_HEIGHT-self.game.player.vert_angle-50, WIDTH, HEIGHT))
+        self.screen.blit(self.floor_image, (0, HALF_HEIGHT-self.game.player.vert_angle-50))
 
     def render_game_objects(self):
         list_objects = sorted(self.game.raycasting.objects_to_render, key = lambda t: t[0], reverse=True)

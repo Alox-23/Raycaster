@@ -193,6 +193,7 @@ class Map:
     def change_level(self, level_path, inside = False):
         self.get_data("data/levels/"+level_path)
         self.active_level = Level(self.game, self.data)
+        self.game.object_renderer.init_sky(sky_path = self.data["sky"], roof_color = self.data["roof-color"], fog_color = self.data["fog-color"], floor_color = self.data["floor-color"])
         self.set_level()
 
 class Level:
