@@ -1,19 +1,19 @@
 import pygame
 from settings import *
-
+import json
 
 class ObjectRenderer:
 
-    def __init__(self, game, data):
+    def __init__(self, game):
         self.game = game
         self.screen = game.screan
         self.texture_path = "assets/textures/"
         self.wall_textures = self.load_wall_textures()
+        self.door_textures = self.load_wall_textures()
 
         self.fog_color = FOG_COLOR
-        self.init_sky(sky_path = data["sky"], roof_color = data["roof-color"], fog_color = data["fog-color"], floor_color = data["floor-color"])
 
-    def init_sky(self, sky_path = "sky.png", floor_color = FLOOR_COLOR, roof_color = (1,1,1, 255), fog_color = FOG_COLOR):
+    def init_sky(self, sky_path = "sky.png", floor_color = FLOOR_COLOR, roof_color = (1,1,1, 255), fog_color = FOG_COLOR, fog_height = 200):
         if sky_path != 0:
             self.sky_image = self.get_texture(self.texture_path+sky_path, (WIDTH, HEIGHT))
         else:
@@ -23,7 +23,7 @@ class ObjectRenderer:
         self.floor_image = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA).convert_alpha()
         self.floor_image.fill(floor_color)
 
-        self.fog_height = 30
+        self.fog_height = fog_height
         self.fog_color = fog_color
 
         if sky_path != 0:
@@ -33,6 +33,16 @@ class ObjectRenderer:
                     a[3] = int(y / HALF_HEIGHT * 255)
                     self.sky_image.set_at((x, HEIGHT-y), a)
         
+
+            for x in range(WIDTH):
+                for y in range(self.fog_height):
+                    a = self.floor_image.get_at((x, y))
+                    if y % 2 == 0:
+                        a[3] = int(y / self.fog_height * 255)
+                    else:
+                        a[3] = int((y-1) / self.fog_height * 255)
+                    self.floor_image.set_at((x, y), a)
+
         else:
             for x in range(WIDTH):
                 for y in range(self.fog_height):
@@ -42,21 +52,23 @@ class ObjectRenderer:
                     else:
                         a[3] = int((y-1) / self.fog_height * 255)
                     self.sky_image.set_at((x, HEIGHT-y), a)
+        
 
-        for x in range(WIDTH):
-            for y in range(self.fog_height):
-                a = self.floor_image.get_at((x, y))
-                if y % 2 == 0:
-                    a[3] = int(y / self.fog_height * 255)
-                else:
-                    a[3] = int((y-1) / self.fog_height * 255)
-                self.floor_image.set_at((x, y), a)
+            for x in range(WIDTH):
+                for y in range(self.fog_height):
+                    a = self.floor_image.get_at((x, y))
+                    if y % 2 == 0:
+                        a[3] = int(y / self.fog_height * 255)
+                    else:
+                        a[3] = int((y-1) / self.fog_height * 255)
+                    self.floor_image.set_at((x, y), a)
 
         self.sky_offset = 0
 
     def draw(self):
         self.draw_background()
         self.render_game_objects()
+        pygame.display.flip()
 
     def draw_background(self):
         self.screen.fill(self.fog_color)
@@ -85,8 +97,13 @@ class ObjectRenderer:
         return image
 
     def load_wall_textures(self):
-        return {
-            1: self.get_texture(self.texture_path+'wall.png'),
-            2: self.get_texture(self.texture_path+'wall2.png'),
-            3: self.get_texture_from_tileset(self.texture_path+"Textures-16.png", pos = (0, -10))
-        }
+        with open("data/textures.json", "r") as f:
+            data = json.load(f)
+        
+        data2 = {}
+        for key, value in data.items():
+            data2[int(key)] = self.get_texture(self.texture_path+value)
+        return data2
+
+    def load_screen(self):
+        self.screen.blit(pygame.transform.scale(pygame.image.load("assets/loading.jpg"), RES), (0,0))

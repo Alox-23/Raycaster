@@ -6,6 +6,7 @@ from player import *
 from raycasting import *
 from object_renderer import *
 from sprite import *
+from sprite_handler import *
 
 class GAME:
 
@@ -13,21 +14,23 @@ class GAME:
         pygame.init()
         self.screan = pygame.display.set_mode(RES)
         self.clock = pygame.time.Clock()
-        self.new_game()
         self.delta_time = 1
+        self.new_game()
 
     def new_game(self):
-        self.map = Map(self)
         self.player = PLAYER(self)
-        self.object_renderer = ObjectRenderer(self, self.map.data)
+        self.sprite_handler = SpriteHandler(self)
+        self.object_renderer = ObjectRenderer(self)
+        self.map = Map(self)
         self.raycasting = RayCasting(self)
-        self.static_sprite = SpriteObject(self)
+
+    def load_screen(self):
+        self.object_renderer.load_screen()
 
     def update(self):
         self.player.update()
         self.raycasting.update()
-        self.static_sprite.update()
-        pygame.display.flip()
+        self.sprite_handler.update()
         self.delta_time = self.clock.tick(FPS)
         pygame.display.set_caption(f'{self.clock.get_fps() :.1f} FPS')
 

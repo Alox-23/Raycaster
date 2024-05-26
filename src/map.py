@@ -175,8 +175,7 @@ mini_map =  [
 class Map:
     def __init__(self, game):
         self.game = game
-        self.get_data("data/levels/level.json")
-        self.active_level = Level(game, self.data)
+        self.change_level("city.json")
         self.set_level()
 
     def set_level(self):
@@ -191,9 +190,14 @@ class Map:
             self.change_level(self.world_map[floor][(x,y)].level)
 
     def change_level(self, level_path, inside = False):
+        self.game.object_renderer.load_screen()
+        pygame.display.update()
         self.get_data("data/levels/"+level_path)
         self.active_level = Level(self.game, self.data)
-        self.game.object_renderer.init_sky(sky_path = self.data["sky"], roof_color = self.data["roof-color"], fog_color = self.data["fog-color"], floor_color = self.data["floor-color"])
+
+        self.game.sprite_handler.load_sprites(self.data)
+        self.game.player.change_pos(self.data["player-pos"])
+        self.game.object_renderer.init_sky(sky_path = self.data["sky"], roof_color = self.data["roof-color"], fog_color = self.data["fog-color"], floor_color = self.data["floor-color"], fog_height = self.data["fog-height"])
         self.set_level()
 
 class Level:

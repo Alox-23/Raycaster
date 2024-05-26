@@ -62,6 +62,10 @@ class PLAYER:
 
     def update(self):
         self.movement()
+    
+    def change_pos(self, pos):
+        self.y = pos[1]
+        self.x = pos[0]
 
     @property
     def pos(self):

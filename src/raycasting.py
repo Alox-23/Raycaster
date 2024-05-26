@@ -29,7 +29,7 @@ class RayCasting:
                                                         (SCALE, proj_height))
                     wall_column_dark.fill(self.game.object_renderer.fog_color)
                     
-                    wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((floor-0.5) * proj_height)-self.game.player.vert_angle)
+                    wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((floor-0.2) * proj_height)-self.game.player.vert_angle)
 
                     wall_column_text.set_alpha(depth*-15 + 300)
 

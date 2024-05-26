@@ -3,7 +3,7 @@ from settings import *
 
 class SpriteObject:
     def __init__(self, game, path = "assets/sprites/goblin/wall.png",
-                  pos = (10.5, 3.5), scale = 2, shift = -0.1):
+                  pos = (10.5, 3.5), scale = 2, shift = 0.05):
         self.game = game
         self.player = game.player
         self.x, self.y = pos
@@ -18,7 +18,6 @@ class SpriteObject:
 
     def get_sprite_projection(self):
         #(ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((floor-0.5) * proj_height)-self.game.player.vert_angle)
-
         proj = SCREEN_DIST / self.norm_dist * self.SPRITE_SCALE
         proj_width, proj_height = proj * self.IMAGE_RATIO, proj
 
