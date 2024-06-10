@@ -1,5 +1,5 @@
 {
-    "player-pos": [10, 10],
+    "player-pos": [40, 25],
 
 
     "fog-height" : 20,
@@ -18,6 +18,8 @@
         ["wall", [20, 20]],
         ["wall", [30, 20]]
     ],
+
+    "music" : "music.mp3",
 
     "door-level" : {
         "4": "level.json",

@@ -1,5 +1,6 @@
 import pygame
 import json
+import random
 
 """
 mini_map =  [
@@ -194,7 +195,12 @@ class Map:
         pygame.display.update()
         self.get_data("data/levels/"+level_path)
         self.active_level = Level(self.game, self.data)
-
+        
+        if self.data.get("music") != None:
+            pygame.mixer.music.load("assets/audio/"+self.data.get("music"))
+            pygame.mixer.music.play(-1, 0.0, random.randint(20000, 1000000))
+        else:
+            pygame.mixer.music.fadeout(3000)
         self.game.sprite_handler.load_sprites(self.data)
         self.game.player.change_pos(self.data["player-pos"])
         self.game.object_renderer.init_sky(sky_path = self.data["sky"], roof_color = self.data["roof-color"], fog_color = self.data["fog-color"], floor_color = self.data["floor-color"], fog_height = self.data["fog-height"])
