@@ -3,7 +3,7 @@ from settings import *
 
 class SpriteObject:
     def __init__(self, game, path = "assets/sprites/goblin/wall.png",
-                  pos = (10.5, 3.5), scale = 2, shift = 0.05):
+                  pos = (10.5, 3.5), scale = 0.85, shift = -0.275):
         self.game = game
         self.player = game.player
         self.x, self.y = pos
