@@ -106,7 +106,7 @@ class RayCasting:
             #remove fishbowl effect
             depth *= math.cos(self.game.player.angle - ray_angle)
 
-            proj_height = SCREEN_DIST / (depth + 0.0001)
+            proj_height = resize_buffer_DIST / (depth + 0.0001)
 
             ray_casting_result.append(
                 (depth, proj_height, texture, offset))

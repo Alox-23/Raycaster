@@ -12,7 +12,8 @@ class GAME:
 
     def __init__(self):
         pygame.init()
-        self.screan = pygame.display.set_mode(RES)
+        self.display = pygame.display.set_mode(RES)
+        self.resize_buffer = pygame.Surface(RES)
         self.clock = pygame.time.Clock()
         self.delta_time = 1
         self.new_game()
@@ -24,8 +25,8 @@ class GAME:
         self.map = Map(self)
         self.raycasting = RayCasting(self)
 
-    def load_screen(self):
-        self.object_renderer.load_screen()
+    def load_resize_buffer(self):
+        self.object_renderer.load_resize_buffer()
 
     def update(self):
         self.player.update()

@@ -11,20 +11,20 @@ class SpriteObject:
         self.IMAGE_WIDTH = self.image.get_width()
         self.IMAGE_HALF_WIDTH = self.image.get_width() // 2
         self.IMAGE_RATIO = self.IMAGE_WIDTH / self.image.get_height()
-        self.dx, self.dy, self.theta, self.screen_x, self.dist, self.norm_dist = 0, 0, 0, 0, 0, 1
+        self.dx, self.dy, self.theta, self.resize_buffer_x, self.dist, self.norm_dist = 0, 0, 0, 0, 0, 1
         self.sprite_half_width = 0
         self.SPRITE_SCALE = scale
         self.SPRITE_HEIGHT_SHIFT = shift
 
     def get_sprite_projection(self):
         #(ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((floor-0.5) * proj_height)-self.game.player.vert_angle)
-        proj = SCREEN_DIST / self.norm_dist * self.SPRITE_SCALE
+        proj = resize_buffer_DIST / self.norm_dist * self.SPRITE_SCALE
         proj_width, proj_height = proj * self.IMAGE_RATIO, proj
 
         image = pygame.transform.scale(self.image, (proj_width, proj_height))
 
         self.sprite_half_width = proj_width // 2
-        pos = self.screen_x - self.sprite_half_width, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((0+self.SPRITE_HEIGHT_SHIFT) * proj_height)-self.game.player.vert_angle
+        pos = self.resize_buffer_x - self.sprite_half_width, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((0+self.SPRITE_HEIGHT_SHIFT) * proj_height)-self.game.player.vert_angle
 
         self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))
 
@@ -39,11 +39,11 @@ class SpriteObject:
             delta += math.tau
         
         delta_rays = delta / DELTA_ANGLE
-        self.screen_x = (HALF_NUM_RAYS*2 + delta_rays) * SCALE
+        self.resize_buffer_x = (HALF_NUM_RAYS*2 + delta_rays) * SCALE
 
         self.dist = math.hypot(dx, dy)
         self.norm_dist = self.dist * math.cos(delta)
-        if - self.IMAGE_HALF_WIDTH < self.screen_x < (WIDTH + self.IMAGE_HALF_WIDTH) and self.norm_dist > 0.5:
+        if - self.IMAGE_HALF_WIDTH < self.resize_buffer_x < (WIDTH + self.IMAGE_HALF_WIDTH) and self.norm_dist > 0.5:
             self.get_sprite_projection()
 
     def update(self):
