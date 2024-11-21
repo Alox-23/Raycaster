@@ -17,7 +17,7 @@ class RayCasting:
         for i in range(len(self.game.map.world_map)):
             for ray, values in enumerate(self.ray_casting_result[floor]):
                 depth, proj_height, texture, offset = values
-                if depth < MAX_DEPTH:
+                if depth < MAX_DEPTH-(MAX_DEPTH//5):
                     wall_column_text = self.textures[texture].subsurface(
                         offset * (TEXTURE_SIZE - SCALE), 0, SCALE, TEXTURE_SIZE)
                     wall_column_text = pygame.transform.scale(wall_column_text,
@@ -82,14 +82,13 @@ class RayCasting:
             dy = delta_depth * sin_a
 
             for i in range(MAX_DEPTH):
-                if i < 20:
-                    tile_vert = int(x_vert), int(y_vert)
-                    if tile_vert in map:
-                        texture_vert = map[tile_vert].value
-                        break
-                    x_vert += dx
-                    y_vert += dy
-                    depth_vert += delta_depth
+                tile_vert = int(x_vert), int(y_vert)
+                if tile_vert in map:
+                    texture_vert = map[tile_vert].value
+                    break
+                x_vert += dx
+                y_vert += dy
+                depth_vert += delta_depth
 
             #depth
             if depth_vert < depth_hor:
