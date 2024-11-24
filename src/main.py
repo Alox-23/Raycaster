@@ -8,6 +8,7 @@ from object_renderer import *
 from sprite import *
 from sprite_handler import *
 from projectile_handler import *
+from hud import *
 
 class GAME:
 
@@ -15,16 +16,16 @@ class GAME:
         pygame.init()
         pygame.font.init()
         self.font = pygame.font.Font("assets/fonts/font.ttf", 16)
-        self.debug_text = "lol"
+        self.debug_text = ""
         self.display = pygame.display.set_mode(RES)
         self.resize_buffer = pygame.Surface(RES)
         self.clock = pygame.time.Clock()
         self.delta_time = 1
         self.togle_text = True
-        print("Press p togle text!")
         self.new_game()
 
     def new_game(self):
+        self.hud = Hud(self)
         self.projectile_handler = ProjectileHandler(self)
         self.player = PLAYER(self)
         self.sprite_handler = SpriteHandler(self)
@@ -37,6 +38,7 @@ class GAME:
 
     def update(self):
         self.debug_text = ""
+        self.hud.update()
         self.player.update()
         self.raycasting.update()
         self.sprite_handler.update()

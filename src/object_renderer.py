@@ -86,7 +86,8 @@ class ObjectRenderer:
     def draw(self):
         self.draw_background()
         self.render_game_objects()
-        self.game.player.draw_hands(self.resize_buffer)
+        self.game.player.draw_hands(self.game.hud.image)
+        self.game.hud.draw(self.resize_buffer)
         self.draw_resize_buffer()
         if self.game.togle_text == True:
             self.draw_text()

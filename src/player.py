@@ -14,7 +14,14 @@ class PLAYER:
         self.player_hands = pygame.image.load("assets/sprites/hands.png")
         self.player_hands = pygame.transform.scale(self.player_hands, (500, 500))
         self.player_hands_rect = self.player_hands.get_rect()
-        self.player_hands_rect.center = (HALF_WIDTH, 200)
+        self.player_hands_rect.center = (HALF_WIDTH, -50)
+
+        self.health = 100
+        self.max_health = 100
+        self.mana = 100
+        self.max_mana = 100
+        self.stamina = 100
+        self.max_stamina = 100
 
     def check_wall(self, x, y):
         return (x, y) not in self.game.map.world_map[self.floor]
@@ -52,7 +59,10 @@ class PLAYER:
 
         if keys[pygame.K_SPACE] and self.projectile_timer> self.projectile_interval:
             self.projectile_timer = 0
-            self.player_hands_rect.centery = 200
+            self.mana-= 10
+            self.health-= 10
+            self.stamina-= 10
+            self.player_hands_rect.centery = -150
             self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
 
         self.check_wall_collision(dx, dy)
