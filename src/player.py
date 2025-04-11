@@ -9,6 +9,19 @@ class PLAYER:
         self.angle = PLAYER_ANGLE
         self.vert_angle = 0
         self.floor = 0
+        self.projectile_timer = 0
+        self.projectile_interval = 600
+        self.player_hands = pygame.image.load("assets/sprites/hands.png")
+        self.player_hands = pygame.transform.scale(self.player_hands, (500, 500))
+        self.player_hands_rect = self.player_hands.get_rect()
+        self.player_hands_rect.center = (HALF_WIDTH, -50)
+
+        self.health = 100
+        self.max_health = 100
+        self.mana = 100
+        self.max_mana = 100
+        self.stamina = 100
+        self.max_stamina = 100
 
     def check_wall(self, x, y):
         return (x, y) not in self.game.map.world_map[self.floor]
@@ -44,6 +57,14 @@ class PLAYER:
             dx += -speed_sin
             dy += speed_cos
 
+        if keys[pygame.K_SPACE] and self.projectile_timer> self.projectile_interval:
+            self.projectile_timer = 0
+            self.mana-= 10
+            self.health-= 10
+            self.stamina-= 10
+            self.player_hands_rect.centery = -150
+            self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
+
         self.check_wall_collision(dx, dy)
 
         if keys[pygame.K_LEFT]:
@@ -55,17 +76,24 @@ class PLAYER:
             self.vert_angle -= PLAYER_VERT_ROT_SPEED * self.game.delta_time
         if keys[pygame.K_DOWN] and self.vert_angle <= 170:
             self.vert_angle += PLAYER_VERT_ROT_SPEED * self.game.delta_time
+
         self.angle %= math.tau
 
     def draw(self):
         pygame.draw.circle(self.game.screan, 'green', (self.x * 100, self.y * 100), 15)
 
     def update(self):
+        if not self.projectile_timer > self.projectile_interval:
+            self.player_hands_rect.centery += 1
+            self.projectile_timer += 1 * self.game.delta_time
         self.movement()
     
     def change_pos(self, pos):
         self.y = pos[1]
         self.x = pos[0]
+    
+    def draw_hands(self, d):
+        d.blit(self.player_hands, self.player_hands_rect)
 
     @property
     def pos(self):

@@ -8,6 +8,7 @@ class SpriteObject:
         self.player = game.player
         self.x, self.y = pos
         self.image = pygame.image.load(path).convert_alpha()
+        self.draw_image = self.image
         self.IMAGE_WIDTH = self.image.get_width()
         self.IMAGE_HALF_WIDTH = self.image.get_width() // 2
         self.IMAGE_RATIO = self.IMAGE_WIDTH / self.image.get_height()
@@ -22,16 +23,16 @@ class SpriteObject:
         proj_width, proj_height = proj * self.IMAGE_RATIO, proj
 
         image = pygame.transform.scale(self.image, (proj_width, proj_height))
-
+        self.draw_image = image
         self.sprite_half_width = proj_width // 2
         pos = self.resize_buffer_x - self.sprite_half_width, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((0+self.SPRITE_HEIGHT_SHIFT) * proj_height)-self.game.player.vert_angle
-
         self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))
+        
 
     def get_sprite(self):
+        
         dx = self.x - self.player.x
         dy = self.y - self.player.y
-        self.dx, self.dy = dx, dy
         self.theta = math.atan2(dy, dx)
 
         delta = self.theta - self.player.angle
@@ -45,6 +46,9 @@ class SpriteObject:
         self.norm_dist = self.dist * math.cos(delta)
         if - self.IMAGE_HALF_WIDTH < self.resize_buffer_x < (WIDTH + self.IMAGE_HALF_WIDTH) and self.norm_dist > 0.5:
             self.get_sprite_projection()
+            
 
     def update(self):
+        self.x+=self.dx*self.game.delta_time
+        self.y+=self.dy*self.game.delta_time
         self.get_sprite()

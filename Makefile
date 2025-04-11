@@ -1,2 +1,2 @@
 all:
-	python3 level_editor/main.py
+	python3 src/main.py

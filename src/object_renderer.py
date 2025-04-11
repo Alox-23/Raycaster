@@ -5,7 +5,10 @@ import json
 class ObjectRenderer:
 
     def __init__(self, game):
+        
         self.game = game
+        self.text_buffer = pygame.Surface((250, 150))
+        #self.text_buffer.set_colorkey((0,0,0))
         self.resize_buffer = game.resize_buffer
         self.display = game.display 
         self.texture_path = "assets/textures/"
@@ -65,11 +68,29 @@ class ObjectRenderer:
                     self.floor_image.set_at((x, y), a)
 
         self.sky_offset = 0
+    def draw_text(self):
+        t = ""
+        y_cntr = 0
+        self.text_buffer.fill((0,0,255))
+        for i in self.game.debug_text:
+            if i != ";":
+                t += i
+            else:
+                t_surf = self.game.font.render(t, False, (0,255,0))
+                self.text_buffer.blit(t_surf, (5, 4+y_cntr*20))
+                t = ""
+                y_cntr += 1
+        self.display.blit(self.text_buffer, (5,5))
+        
 
     def draw(self):
         self.draw_background()
         self.render_game_objects()
+        self.game.player.draw_hands(self.game.hud.image)
+        self.game.hud.draw(self.resize_buffer)
         self.draw_resize_buffer()
+        if self.game.togle_text == True:
+            self.draw_text()
         pygame.display.flip()
 
     def draw_resize_buffer(self):
