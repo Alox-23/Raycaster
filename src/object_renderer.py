@@ -9,6 +9,8 @@ class ObjectRenderer:
         self.game = game
         self.text_buffer = pygame.Surface((250, 150))
         #self.text_buffer.set_colorkey((0,0,0))
+        self.fog_scale = -15
+        self.fog_offset = 300
         self.resize_buffer = game.resize_buffer
         self.display = game.display 
         self.texture_path = "assets/textures/"
@@ -17,7 +19,7 @@ class ObjectRenderer:
 
         self.fog_color = FOG_COLOR
 
-    def init_sky(self, sky_path = "sky.png", floor_color = FLOOR_COLOR, roof_color = (1,1,1, 255), fog_color = FOG_COLOR, fog_height = 200):
+    def init_sky(self, sky_path = "sky.png", floor_color = FLOOR_COLOR, roof_color = (1,1,1, 255), fog_color = FOG_COLOR, fog_height = 200, fog_offset = 300, fog_scale = -15):
         if sky_path != 0:
             self.sky_image = self.get_texture(self.texture_path+sky_path, (WIDTH, HEIGHT))
         else:
@@ -29,6 +31,8 @@ class ObjectRenderer:
 
         self.fog_height = fog_height
         self.fog_color = fog_color
+        self.fog_offset = fog_offset
+        self.fog_scale = fog_scale
 
         if sky_path != 0:
             for x in range(WIDTH):
@@ -86,7 +90,7 @@ class ObjectRenderer:
     def draw(self):
         self.draw_background()
         self.render_game_objects()
-        self.game.player.draw_hands(self.game.hud.image)
+        self.game.player.draw_hands(self.resize_buffer)
         self.game.hud.draw(self.resize_buffer)
         self.draw_resize_buffer()
         if self.game.togle_text == True:

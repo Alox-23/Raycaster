@@ -6,15 +6,16 @@ class PLAYER:
     def __init__(self, game):
         self.game = game
         self.x, self.y = PLAYER_POS
+        self.z = 0
         self.angle = PLAYER_ANGLE
         self.vert_angle = 0
         self.floor = 0
         self.projectile_timer = 0
         self.projectile_interval = 600
         self.player_hands = pygame.image.load("assets/sprites/hands.png")
-        self.player_hands = pygame.transform.scale(self.player_hands, (500, 500))
+        self.player_hands = pygame.transform.scale(self.player_hands, (150, 150))
         self.player_hands_rect = self.player_hands.get_rect()
-        self.player_hands_rect.center = (HALF_WIDTH, -50)
+        self.player_hands_rect.center = (HALF_WIDTH, HEIGHT-75)
 
         self.health = 100
         self.max_health = 100
@@ -62,7 +63,7 @@ class PLAYER:
             self.mana-= 10
             self.health-= 10
             self.stamina-= 10
-            self.player_hands_rect.centery = -150
+            self.player_hands_rect.centery =  HEIGHT-75
             self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
 
         self.check_wall_collision(dx, dy)

@@ -10,6 +10,10 @@
 
     "fog-color" : [255,255,255],
 
+    "fog-offset" : 250,
+
+    "fog-scale" : -5,
+
     "sky" : "sky.png",
 
     "doors" : [4, 5],

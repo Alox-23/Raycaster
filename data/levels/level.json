@@ -9,6 +9,10 @@
 
     "fog-color" : [0,0,0],
 
+    "fog-offset" : 300,
+
+    "fog-scale" : -30,
+
     "sky" : 0,
 
     "doors" : [4],

@@ -28,7 +28,7 @@ class Map:
         self.game.sprite_handler.load_sprites(self.data)
         self.game.projectile_handler.clear_all()
         self.game.player.change_pos(self.data["player-pos"])
-        self.game.object_renderer.init_sky(sky_path = self.data["sky"], roof_color = self.data["roof-color"], fog_color = self.data["fog-color"], floor_color = self.data["floor-color"], fog_height = self.data["fog-height"])
+        self.game.object_renderer.init_sky(sky_path = self.data["sky"], roof_color = self.data["roof-color"], fog_color = self.data["fog-color"], floor_color = self.data["floor-color"], fog_height = self.data["fog-height"], fog_scale = self.data["fog-scale"], fog_offset = self.data["fog-offset"])
         self.set_level()
 
 class Level:
