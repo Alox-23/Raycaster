@@ -6,9 +6,8 @@ class PLAYER:
     def __init__(self, game):
         self.game = game
         self.x, self.y = PLAYER_POS
-        self.z = 0
+        self.z = 0.5
         self.angle = PLAYER_ANGLE
-        self.vert_angle = 0
         self.floor = 0
         self.projectile_timer = 0
         self.projectile_interval = 100
@@ -71,11 +70,6 @@ class PLAYER:
             self.angle -= PLAYER_ROT_SPEED * self.game.delta_time
         if keys[pygame.K_RIGHT]:
             self.angle += PLAYER_ROT_SPEED * self.game.delta_time
-
-        if keys[pygame.K_UP] and self.vert_angle >= -200:
-            self.vert_angle -= PLAYER_VERT_ROT_SPEED * self.game.delta_time
-        if keys[pygame.K_DOWN] and self.vert_angle <= 150:
-            self.vert_angle += PLAYER_VERT_ROT_SPEED * self.game.delta_time
 
         self.angle %= math.tau
 

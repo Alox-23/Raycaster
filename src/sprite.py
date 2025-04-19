@@ -3,7 +3,7 @@ from settings import *
 
 class SpriteObject:
     def __init__(self, game, path = "assets/sprites/goblin/wall.png",
-                  pos = (10.5, 3.5), scale = 0.85, shift = -0.275):
+                  pos = (10.5, 3.5), scale = 1, shift = 0):
         self.game = game
         self.player = game.player
         self.x, self.y = pos
@@ -18,14 +18,14 @@ class SpriteObject:
         self.SPRITE_HEIGHT_SHIFT = shift
 
     def get_sprite_projection(self):
-        #(ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((floor-0.5) * proj_height)-self.game.player.vert_angle)
+        #(ray * SCALE, HALF_HEIGHT - ((floor-self.game.player.z+1) * proj_height))
         proj = resize_buffer_DIST / self.norm_dist * self.SPRITE_SCALE
         proj_width, proj_height = proj * self.IMAGE_RATIO, proj
 
         image = pygame.transform.scale(self.image, (proj_width, proj_height))
         self.draw_image = image
         self.sprite_half_width = proj_width // 2
-        pos = self.resize_buffer_x - self.sprite_half_width, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((-self.game.player.z+self.SPRITE_HEIGHT_SHIFT) * proj_height)-self.game.player.vert_angle
+        pos = self.resize_buffer_x - self.sprite_half_width, HALF_HEIGHT - ((self.SPRITE_HEIGHT_SHIFT-self.game.player.z+1) * proj_height)
         self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))
         
 

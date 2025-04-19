@@ -18,7 +18,6 @@ class ProjectileHandler:
             if sprite.check_wall():
                 self.sprites.pop(i)
             if sprite.draw_image.get_width() < 3:
-                print("lol")
                 self.sprites.pop(i)
         
     def clear_all(self):
