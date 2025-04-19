@@ -4,7 +4,7 @@ from settings import *
 class CrossHair():
     def __init__(self, game):
         self.game = game
-        self.image = pygame.Surface((10, 10))
+        self.image = pygame.Surface((5, 5))
         self.image.fill((255, 0, 0))
         self.rect = self.image.get_rect()
         self.rect.center = (HALF_WIDTH, HALF_HEIGHT)
