@@ -2,7 +2,7 @@
     "player-pos": [11, 7],
 
 
-    "fog-height" : 0,
+    "fog-height" : 200,
 
     "floor-color" : [80,80,80],
 
@@ -10,9 +10,9 @@
 
     "fog-color" : [0,0,0],
 
-    "fog-offset" : 300,
+    "fog-offset" : 250,
 
-    "fog-scale" : -30,
+    "fog-scale" : -15,
     
     "sky" : 0,
 

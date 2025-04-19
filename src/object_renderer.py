@@ -40,16 +40,6 @@ class ObjectRenderer:
                     a = self.sky_image.get_at((x, y))
                     a[3] = int(y / HALF_HEIGHT * 255)
                     self.sky_image.set_at((x, HEIGHT-y), a)
-        
-
-            for x in range(WIDTH):
-                for y in range(self.fog_height):
-                    a = self.floor_image.get_at((x, y))
-                    if y % 2 == 0:
-                        a[3] = int(y / self.fog_height * 255)
-                    else:
-                        a[3] = int((y-1) / self.fog_height * 255)
-                    self.floor_image.set_at((x, y), a)
 
         else:
             for x in range(WIDTH):
@@ -62,14 +52,14 @@ class ObjectRenderer:
                     self.sky_image.set_at((x, HEIGHT-y), a)
         
 
-            for x in range(WIDTH):
-                for y in range(self.fog_height):
-                    a = self.floor_image.get_at((x, y))
-                    if y % 2 == 0:
-                        a[3] = int(y / self.fog_height * 255)
-                    else:
-                        a[3] = int((y-1) / self.fog_height * 255)
-                    self.floor_image.set_at((x, y), a)
+        for x in range(WIDTH):
+            for y in range(self.fog_height):
+                a = self.floor_image.get_at((x, y))
+                if y % 2 == 0:
+                    a[3] = int(y / self.fog_height * 255)
+                else:
+                    a[3] = int((y-1) / self.fog_height * 255)
+                self.floor_image.set_at((x, y), a)
 
         self.sky_offset = 0
     def draw_text(self):
@@ -90,7 +80,7 @@ class ObjectRenderer:
     def draw(self):
         self.draw_background()
         self.render_game_objects()
-        self.game.player.draw_hands(self.resize_buffer)
+        #self.game.player.draw_hands(self.resize_buffer)
         self.game.hud.draw(self.resize_buffer)
         self.draw_resize_buffer()
         if self.game.togle_text == True:

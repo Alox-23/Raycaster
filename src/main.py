@@ -25,9 +25,9 @@ class GAME:
         self.new_game()
 
     def new_game(self):
-        self.hud = Hud(self)
         self.projectile_handler = ProjectileHandler(self)
         self.player = PLAYER(self)
+        self.hud = Hud(self)
         self.sprite_handler = SpriteHandler(self)
         self.object_renderer = ObjectRenderer(self)
         self.map = Map(self)
@@ -38,8 +38,8 @@ class GAME:
 
     def update(self):
         self.debug_text = ""
-        self.hud.update()
         self.player.update()
+        self.hud.update()
         self.raycasting.update()
         self.sprite_handler.update()
         self.projectile_handler.update()

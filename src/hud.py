@@ -2,13 +2,13 @@ import pygame
 from settings import *
 
 class Bar:
-    def __init__(self, pos):
-        self.max_val = 100
-        self.val = 50
-        self.scale = 2
-        self.height = 20
+    def __init__(self, pos, m_val= 100, val = 50, height = 20, scale = 2, border_size = 3):
+        self.max_val = m_val
+        self.val = val
+        self.scale = scale
+        self.height = height
 
-        self.border_size = 3
+        self.border_size = border_size
 
         self.image = pygame.Surface((self.max_val * self.scale + self.border_size*2, self.height + self.border_size*2))
         self.rect = self.image.get_rect()
@@ -54,22 +54,26 @@ class Hud:
     def __init__(self, game):
         self.game = game
 
-        self.mana = Bar((10, 10))
-        self.mana.color = (0, 0, 255)
-        self.health = CenterBar((300, 10))
-        self.health.color = (255, 0, 0)
-        self.stamina = RightBar((585, 10))
-        self.stamina.color = (0, 255, 0)
-
-        self.hud_height = 50
+        self.hud_height = 100
         self.image = pygame.Surface((WIDTH, self.hud_height))
-        self.image.set_colorkey((0,0,0))
+        self.image.set_colorkey((0,5,0))
 
         self.rect = self.image.get_rect()
         self.rect.topleft = (0, HEIGHT - self.hud_height)
 
+        self.mana = Bar((8, self.hud_height-25), height=15, border_size = 2)
+        self.stamina = Bar((8, self.hud_height-45), height=15 , border_size = 2)
+        self.health = Bar((8, self.hud_height-65), height=15 , border_size = 2)
+
+        self.game.player.player_hands_rect.center = (HALF_WIDTH, self.hud_height-50)
+
+        self.mana.color = (0, 0, 255)
+        self.health.color = (255, 0, 0)
+        self.stamina.color = (0, 255, 0)
+
     def draw(self, display):
-        self.image.fill((0,0,0))
+        self.image.fill((0,5,0))
+        self.game.player.draw_hands(self.image)
         self.health.draw(self.image)
         self.mana.draw(self.image)
         self.stamina.draw(self.image)

@@ -11,11 +11,11 @@ class PLAYER:
         self.vert_angle = 0
         self.floor = 0
         self.projectile_timer = 0
-        self.projectile_interval = 600
+        self.projectile_interval = 100
         self.player_hands = pygame.image.load("assets/sprites/hands.png")
-        self.player_hands = pygame.transform.scale(self.player_hands, (150, 150))
+        self.player_hands = pygame.transform.scale(self.player_hands, (100, 100))
         self.player_hands_rect = self.player_hands.get_rect()
-        self.player_hands_rect.center = (HALF_WIDTH, HEIGHT-75)
+        self.player_hands_rect.center = (HALF_WIDTH, 0)
 
         self.health = 100
         self.max_health = 100
@@ -63,7 +63,6 @@ class PLAYER:
             self.mana-= 10
             self.health-= 10
             self.stamina-= 10
-            self.player_hands_rect.centery =  HEIGHT-75
             self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
 
         self.check_wall_collision(dx, dy)
@@ -73,9 +72,9 @@ class PLAYER:
         if keys[pygame.K_RIGHT]:
             self.angle += PLAYER_ROT_SPEED * self.game.delta_time
 
-        if keys[pygame.K_UP] and self.vert_angle >= -220:
+        if keys[pygame.K_UP] and self.vert_angle >= -200:
             self.vert_angle -= PLAYER_VERT_ROT_SPEED * self.game.delta_time
-        if keys[pygame.K_DOWN] and self.vert_angle <= 170:
+        if keys[pygame.K_DOWN] and self.vert_angle <= 150:
             self.vert_angle += PLAYER_VERT_ROT_SPEED * self.game.delta_time
 
         self.angle %= math.tau
@@ -85,7 +84,6 @@ class PLAYER:
 
     def update(self):
         if not self.projectile_timer > self.projectile_interval:
-            self.player_hands_rect.centery += 1
             self.projectile_timer += 1 * self.game.delta_time
         self.movement()
     
