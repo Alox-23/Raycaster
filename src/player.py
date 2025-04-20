@@ -1,5 +1,6 @@
 from settings import *
 import pygame
+from item import *
 import math
  
 class PLAYER:
@@ -8,10 +9,14 @@ class PLAYER:
         self.speed = 0.007
         self.x, self.y = PLAYER_POS
         self.z = 0.5
+        self.dx, self.dy = 0, 0
         self.angle = PLAYER_ANGLE
         self.floor = 0
         self.projectile_timer = 0
         self.projectile_interval = 100
+
+        self.held_item = Item(game, "assets/sprites/sword.png")
+        #self.held_item = None
 
         self.health = 100
         self.max_health = 100
@@ -70,6 +75,8 @@ class PLAYER:
         pygame.draw.circle(self.game.screan, 'green', (self.x * 100, self.y * 100), 15)
 
     def update(self):
+        if self.held_item != None:
+            self.held_item.update()
         self.movement()
     
     def change_pos(self, pos):

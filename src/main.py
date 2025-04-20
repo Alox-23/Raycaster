@@ -33,7 +33,6 @@ class GAME:
         self.object_renderer = ObjectRenderer(self)
         self.map = Map(self)
         self.raycasting = RayCasting(self)
-        self.crosshair = CrossHair(self)
 
     def load_resize_buffer(self):
         self.object_renderer.load_resize_buffer()

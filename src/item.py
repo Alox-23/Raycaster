@@ -1,16 +1,22 @@
 import pygame
 from settings import *
+from crosshair import *
 
 class Item:
     def __init__(self, game, path):
         self.game = game
 
-        self.swing_index = -0.51
+        self.swing_index = -0.5
         self.swing_bool = False
-        self.swing_amplitude = 100
-        self.swing_speed = self.game.player.speed / 5
+        self.swing_amplitude = 50
+        self.swing_speed = 0.01
 
-        self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (600, 600)), 35)
+        self.rot_angle = 35
+        self.scale = 600
+
+        self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)
+        self.crosshair = CrossHair(self)
+
         self.offsetx = -150
         self.offsety = -200
         self.rect = self.image.get_rect()
@@ -39,11 +45,15 @@ class Item:
         d.blit(self.image, self.rect)
 
         if self.game.togle_text == True:
-            pygame.draw.line(d, (255, 0, 0), (0, self.rect.centery), (WIDTH, self.rect.centery), 5)
+            pygame.draw.line(d, (0, 255, 0), (0, self.rect.centery), (WIDTH, self.rect.centery), 5)
             pygame.draw.line(d, (0, 0, 255), (self.rect.centerx, 0), (self.rect.centerx, HEIGHT), 5)
 
     def update(self):
+        self.swing_speed = self.game.player.speed / 5
         self.swing_animation()
+
+    def use(self):
+        print("im being used!") 
     
     def swing_animation(self):
         x = 0

@@ -55,8 +55,6 @@ class Hud:
     def __init__(self, game):
         self.game = game
 
-        self.item = Item(game, "assets/sprites/sword.png")
-
         self.image = pygame.Surface((WIDTH, HUD_HEIGHT))
         self.image.set_colorkey((0,0,0))
 
@@ -80,11 +78,15 @@ class Hud:
         display.blit(self.image, self.rect)
 
     def draw_item(self):
-        self.item.draw(self.image)
+        if self.game.player.held_item == None:
+            return False
+        else:
+            try:
+                self.game.player.held_item.draw(self.image)
+            except:
+                print("Invalid player item")
 
     def update(self):
-        self.item.update()
-
         self.health.update(self.game.player.health)
         self.mana.update(self.game.player.mana)
         self.stamina.update(self.game.player.stamina)

@@ -8,6 +8,7 @@ class SpriteObject:
         self.player = game.player
         self.x, self.y = pos
         self.image = pygame.image.load(path).convert_alpha()
+        self.rect = self.image.get_rect()
         self.draw_image = self.image
         self.IMAGE_WIDTH = self.image.get_width()
         self.IMAGE_HALF_WIDTH = self.image.get_width() // 2
@@ -26,8 +27,13 @@ class SpriteObject:
         self.draw_image = image
         self.sprite_half_width = proj_width // 2
         pos = self.resize_buffer_x - self.sprite_half_width, HALF_HEIGHT - ((self.SPRITE_HEIGHT_SHIFT-self.game.player.z+1) * proj_height)
+        self.rect = image.get_rect()
+        self.rect.topleft = pos
         self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))
-        
+        self.rect_surface = pygame.Surface((self.rect.width, self.rect.height))
+        self.rect_surface.fill((0, 0, 255))
+        if self.game.togle_text:
+            self.game.raycasting.objects_to_render.append((self.norm_dist, self.rect_surface, self.rect.topleft))
 
     def get_sprite(self):
         

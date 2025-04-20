@@ -9,6 +9,7 @@ class ObjectRenderer:
         self.game = game
         self.text_buffer = pygame.Surface((250, 150))
         #self.text_buffer.set_colorkey((0,0,0))
+        self.rects_to_render = []
         self.fog_scale = -15
         self.fog_offset = 300
         self.resize_buffer = game.resize_buffer
@@ -75,13 +76,13 @@ class ObjectRenderer:
                 t = ""
                 y_cntr += 1
         self.display.blit(self.text_buffer, (5,5))
-        
 
     def draw(self):
         self.draw_background()
         self.render_game_objects()
         self.game.hud.draw(self.resize_buffer)
-        self.game.crosshair.draw(self.resize_buffer)
+        if self.game.player.held_item != None:
+            self.game.player.held_item.crosshair.draw(self.resize_buffer)
         self.draw_resize_buffer()
         if self.game.togle_text == True:
             self.draw_text()
