@@ -5,7 +5,7 @@ import math
 class PLAYER:
     def __init__(self, game):
         self.game = game
-        self.speed = 0.01
+        self.speed = 0.007
         self.x, self.y = PLAYER_POS
         self.z = 0.5
         self.angle = PLAYER_ANGLE
@@ -53,8 +53,9 @@ class PLAYER:
         if keys[pygame.K_d]:
             self.dx += -speed_sin
             self.dy += speed_cos
-
-        #self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
+        
+        if keys[pygame.K_SPACE]:
+            self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
 
         self.check_wall_collision()
 

@@ -104,7 +104,6 @@ class RayCasting:
                 offset = (1 - x_hor) if sin_a > 0 else x_hor
 
 
-
             #remove fishbowl effect
             depth *= math.cos(self.game.player.angle - ray_angle)
 

@@ -46,12 +46,12 @@ class Item:
         self.swing_animation()
     
     def swing_animation(self):
-        print(self.swing_index)
         x = 0
         y = 0
 
         if (self.game.player.dx != 0 or self.game.player.dy != 0) or (self.game.player.dx != 0 and self.game.player.dy != 0):
             self.calculate_rect()
         else:
-            if self.swing_index > -0.5 or self.swing_index < -0.52:
+            if self.swing_index > -0.4 or self.swing_index < -0.6:
                 self.calculate_rect()
+            

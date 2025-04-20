@@ -18,7 +18,7 @@ class GAME:
         pygame.font.init()
         self.font = pygame.font.Font("assets/fonts/font.ttf", 16)
         self.debug_text = ""
-        self.display = pygame.display.set_mode(RES)
+        self.display = pygame.display.set_mode(RES, flags = D_FLAGS)
         self.resize_buffer = pygame.Surface(RES)
         self.clock = pygame.time.Clock()
         self.delta_time = 1

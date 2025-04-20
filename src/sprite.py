@@ -40,7 +40,7 @@ class SpriteObject:
             delta += math.tau
         
         delta_rays = delta / DELTA_ANGLE
-        self.resize_buffer_x = (HALF_NUM_RAYS*2 + delta_rays) * SCALE
+        self.resize_buffer_x = (HALF_NUM_RAYS + delta_rays) * SCALE
 
         self.dist = math.hypot(dx, dy)
         self.norm_dist = self.dist * math.cos(delta)
