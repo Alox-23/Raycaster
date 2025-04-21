@@ -81,8 +81,10 @@ class ObjectRenderer:
         self.draw_background()
         self.render_game_objects()
         self.game.hud.draw(self.resize_buffer)
-        if self.game.player.held_item != None:
+        try:
             self.game.player.held_item.crosshair.draw(self.resize_buffer)
+        except:
+            pass
         self.draw_resize_buffer()
         if self.game.togle_text == True:
             self.draw_text()

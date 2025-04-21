@@ -11,11 +11,13 @@ class Item:
         self.swing_amplitude = 50
         self.swing_speed = 0.01
 
+        self.useable = True
+
         self.rot_angle = 35
         self.scale = 600
 
         self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)
-        self.crosshair = CrossHair(self)
+        #self.crosshair = CrossHair(self, width = 20)
 
         self.offsetx = -150
         self.offsety = -200
@@ -49,13 +51,14 @@ class Item:
             pygame.draw.line(d, (0, 0, 255), (self.rect.centerx, 0), (self.rect.centerx, HEIGHT), 5)
 
     def update(self):
-        self.swing_speed = self.game.player.speed / 5
         self.swing_animation()
 
     def use(self):
-        print("im being used!") 
+        if self.useable == True:
+            print("im being used!") 
     
     def swing_animation(self):
+        self.swing_speed = self.game.player.speed / 5
         x = 0
         y = 0
 

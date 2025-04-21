@@ -29,10 +29,10 @@ class GAME:
         self.projectile_handler = ProjectileHandler(self)
         self.player = PLAYER(self)
         self.hud = Hud(self)
-        self.sprite_handler = SpriteHandler(self)
         self.object_renderer = ObjectRenderer(self)
-        self.map = Map(self)
         self.raycasting = RayCasting(self)
+        self.sprite_handler = SpriteHandler(self)
+        self.map = Map(self)
 
     def load_resize_buffer(self):
         self.object_renderer.load_resize_buffer()

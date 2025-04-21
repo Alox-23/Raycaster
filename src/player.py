@@ -1,6 +1,6 @@
 from settings import *
 import pygame
-from item import *
+from crossitem import *
 import math
  
 class PLAYER:
@@ -15,7 +15,7 @@ class PLAYER:
         self.projectile_timer = 0
         self.projectile_interval = 100
 
-        self.held_item = Item(game, "assets/sprites/sword.png")
+        self.held_item = CrossItem(game, "assets/sprites/sword.png")
         #self.held_item = None
 
         self.health = 100
@@ -58,6 +58,9 @@ class PLAYER:
         if keys[pygame.K_d]:
             self.dx += -speed_sin
             self.dy += speed_cos
+
+        if keys[pygame.K_e]:
+            self.held_item.use()
         
         if keys[pygame.K_SPACE]:
             self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))

@@ -5,6 +5,7 @@ class SpriteObject:
     def __init__(self, game, path = "assets/sprites/goblin/wall.png",
                   pos = (10.5, 3.5), scale = 1, shift = 0):
         self.game = game
+        self.handler = self.game.sprite_handler
         self.player = game.player
         self.x, self.y = pos
         self.image = pygame.image.load(path).convert_alpha()
@@ -36,7 +37,6 @@ class SpriteObject:
             self.game.raycasting.objects_to_render.append((self.norm_dist, self.rect_surface, self.rect.topleft))
 
     def get_sprite(self):
-        
         dx = self.x - self.player.x
         dy = self.y - self.player.y
         self.theta = math.atan2(dy, dx)
@@ -52,7 +52,6 @@ class SpriteObject:
         self.norm_dist = self.dist * math.cos(delta)
         if - self.IMAGE_HALF_WIDTH < self.resize_buffer_x < (WIDTH + self.IMAGE_HALF_WIDTH) and self.norm_dist > 0.5:
             self.get_sprite_projection()
-            
 
     def update(self):
         self.x+=self.dx*self.game.delta_time

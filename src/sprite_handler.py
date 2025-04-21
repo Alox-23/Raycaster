@@ -12,8 +12,12 @@ class SpriteHandler:
         self.sprites = []
 
         for s in data["sprites"]:
-            self.sprites.append(sprite.SpriteObject(self.game, pos = (s[1][0], s[1][1])))
+            print(s)
+            self.sprites.append([0, sprite.SpriteObject(self.game, pos = (s[1][0], s[1][1]))])
+            self.sprites[-1][1].update()
+            self.sprites[-1][0] = self.sprites[-1][1].rect
 
     def update(self):
         for sprite in self.sprites:
-            sprite.update()
+            sprite[1].update()
+            sprite[0] = sprite[1].rect
