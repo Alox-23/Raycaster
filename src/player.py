@@ -1,6 +1,7 @@
 from settings import *
 import pygame
 from crossitem import *
+from mele_weapon import *
 import math
  
 class PLAYER:
@@ -15,8 +16,7 @@ class PLAYER:
         self.projectile_timer = 0
         self.projectile_interval = 100
 
-        self.held_item = CrossItem(game, "assets/sprites/sword.png")
-        #self.held_item = None
+        self.held_item = MeleWeapon(game, "assets/sprites/sword.png")
 
         self.health = 100
         self.max_health = 100

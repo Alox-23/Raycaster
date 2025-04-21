@@ -63,6 +63,7 @@ class ObjectRenderer:
                 self.floor_image.set_at((x, y), a)
 
         self.sky_offset = 0
+        
     def draw_text(self):
         t = ""
         y_cntr = 0

@@ -18,6 +18,9 @@ class SpriteHandler:
             self.sprites[-1][0] = self.sprites[-1][1].rect
 
     def update(self):
+        print(self.sprites)
         for sprite in self.sprites:
             sprite[1].update()
             sprite[0] = sprite[1].rect
+            if sprite[1].health <= 0:
+                self.sprites.remove(sprite)
