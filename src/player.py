@@ -61,6 +61,11 @@ class PLAYER:
 
         if keys[pygame.K_e]:
             self.held_item.use()
+
+        if keys[pygame.K_r]:
+            self.z += 0.1
+        if keys[pygame.K_f]:
+            self.z -= 0.1
         
         if keys[pygame.K_SPACE]:
             self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
@@ -74,8 +79,6 @@ class PLAYER:
 
         self.angle %= math.tau
 
-    def draw(self):
-        pygame.draw.circle(self.game.screan, 'green', (self.x * 100, self.y * 100), 15)
 
     def update(self):
         if self.held_item != None:

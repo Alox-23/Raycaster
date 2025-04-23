@@ -22,6 +22,7 @@ class Item:
         self.scale = 600
 
         self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)
+        self.image.set_colorkey((0,0,0))
         
         self.offsetx = -150
         self.offsety = -200

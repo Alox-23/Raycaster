@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-import sprite
+import entity
 import json
 
 class SpriteHandler:
@@ -12,13 +12,11 @@ class SpriteHandler:
         self.sprites = []
 
         for s in data["sprites"]:
-            print(s)
-            self.sprites.append([0, sprite.SpriteObject(self.game, pos = (s[1][0], s[1][1]))])
+            self.sprites.append([0, entity.Entity(self.game, pos = (s[1][0], s[1][1]))])
             self.sprites[-1][1].update()
             self.sprites[-1][0] = self.sprites[-1][1].rect
 
     def update(self):
-        print(self.sprites)
         for sprite in self.sprites:
             sprite[1].update()
             sprite[0] = sprite[1].rect

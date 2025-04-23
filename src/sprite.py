@@ -4,8 +4,6 @@ from settings import *
 class SpriteObject:
     def __init__(self, game, path = "assets/sprites/goblin/wall.png",
                   pos = (10.5, 3.5), scale = 1, shift = 0):
-        self.health = 100
-
         self.game = game
         self.handler = self.game.sprite_handler
         self.player = game.player

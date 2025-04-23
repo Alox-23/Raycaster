@@ -9,4 +9,7 @@ class MeleWeapon(CrossItem):
 
     def use(self):
         if self.useable == True:
-            self.col_sprite[1].health -= self.damage
+            try:
+                self.col_sprite[1].health -= self.damage
+            except:
+                pass
