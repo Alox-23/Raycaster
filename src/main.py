@@ -50,7 +50,7 @@ class GAME:
     def update_text(self):
         self.debug_text += f'FPS: {self.clock.get_fps() :.1f}' + ";"
         self.debug_text += ";"
-        self.debug_text += "Player pos: " + str(round(self.player.x, 1)) + ", " + str(round(self.player.y, 1)) + ";"
+        self.debug_text += "Player pos: " + str(int(self.player.x)) + ", " + str(int(self.player.y)) + ";"
         self.debug_text += "Player Angle: " + str(round(math.degrees(self.player.angle), 0)) + ";"
         self.debug_text += ";"
         self.debug_text += "Projectiles: " + str(len(self.projectile_handler.sprites)) + ";"

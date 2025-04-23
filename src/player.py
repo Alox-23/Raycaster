@@ -2,6 +2,7 @@ from settings import *
 import pygame
 from crossitem import *
 from mele_weapon import *
+from magic_weapon import *
 import math
  
 class PLAYER:
@@ -12,11 +13,9 @@ class PLAYER:
         self.z = 0.5
         self.dx, self.dy = 0, 0
         self.angle = PLAYER_ANGLE
-        self.floor = 0
-        self.projectile_timer = 0
-        self.projectile_interval = 100
+        self.floor = math.floor(self.z)
 
-        self.held_item = MeleWeapon(game, "assets/sprites/sword.png")
+        self.held_item = MagicWeapon(game, "assets/sprites/sword.png")
 
         self.health = 100
         self.max_health = 100
