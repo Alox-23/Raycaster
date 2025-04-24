@@ -61,17 +61,18 @@ class GAME:
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-                pygame.quit()
-                sys.exit()
+                return False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p and self.togle_text == False:
                     self.togle_text = True
                 elif event.key == pygame.K_p and self.togle_text == True:
                     self.togle_text = False
+        return True
 
     def run(self):
         while True:
-            self.check_events()
+            if not self.check_events():
+                break
             self.update()
             self.draw()
 
@@ -79,3 +80,5 @@ class GAME:
 if __name__ == '__main__':
     game = GAME()
     game.run()
+    pygame.quit()
+    sys.exit()

@@ -18,11 +18,11 @@ class Item:
         self.useable = False
 
         try:
-            self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)      
+            self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle).convert_alpha()
         except:
             self.scale = 600
             self.rot_angle = 35
-            self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)
+            self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle).convert_alpha()
 
         self.image.set_colorkey((0,0,0))
         

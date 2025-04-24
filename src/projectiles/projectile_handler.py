@@ -18,7 +18,7 @@ class ProjectileHandler:
                 self.sprites.pop(i)
             if sprite.check_wall():
                 self.sprites.pop(i)
-            if sprite.draw_image.get_width() < 3:
+            if sprite.norm_dist > 200:
                 self.sprites.pop(i)
         
     def clear_all(self):
