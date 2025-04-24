@@ -10,9 +10,9 @@ class MeleWeapon(CrossItem):
         self.stamina_cost = 10
 
     def use(self):
-        if self.useable == True and self.game.player.stamina > 0:
+        if self.useable == True and self.game.player.entity.stamina > 0:
             try:
                 self.col_sprite[1].health -= self.damage
-                self.game.player.stamina -= self.stamina_cost
+                self.game.player.entity.stamina -= self.stamina_cost
             except:
                 pass

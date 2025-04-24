@@ -12,7 +12,7 @@ class CrossItem(item.Item):
     def check_collision(self):
         for sprite in self.game.sprite_handler.sprites:
             try:
-                if sprite[0].colliderect(self.crosshair.rect):
+                if sprite[0].colliderect(self.crosshair.rect) and sprite[1].killable == True:
                     return sprite
             except:
                 return None

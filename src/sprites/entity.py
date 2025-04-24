@@ -5,6 +5,8 @@ from settings import *
 class Entity(sprite.SpriteObject):
     def __init__(self, game, pos = (0, 0), path = "assets/sprites/goblin/wall.png", scale = 1, shift = 0, p = None):
         super().__init__(game, path, pos = pos, scale = scale, shift = shift, p = p)
+        self.killable = True
+
         self.health = 50
         self.max_health = 100
         self.mana = 50

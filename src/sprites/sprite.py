@@ -5,6 +5,7 @@ class SpriteObject:
     def __init__(self, game, path = "assets/sprites/goblin/wall.png",
                   pos = (10.5, 3.5), scale = 1, shift = 0, p = None):
         self.game = game
+        self.killable = False
         self.handler = self.game.sprite_handler
         if p == None:
             self.player = game.player

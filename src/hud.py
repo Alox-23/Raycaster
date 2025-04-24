@@ -87,10 +87,10 @@ class Hud:
                 print("Invalid player item")
 
     def update(self):
-        self.health.update(self.game.player.health)
-        self.mana.update(self.game.player.mana)
-        self.stamina.update(self.game.player.stamina)
+        self.health.update(self.game.player.entity.health)
+        self.mana.update(self.game.player.entity.mana)
+        self.stamina.update(self.game.player.entity.stamina)
 
-        self.health.max_val = self.game.player.max_health
-        self.mana.max_val = self.game.player.max_mana
-        self.stamina.max_val = self.game.player.max_stamina
+        self.health.max_val = self.game.player.entity.max_health
+        self.mana.max_val = self.game.player.entity.max_mana
+        self.stamina.max_val = self.game.player.entity.max_stamina

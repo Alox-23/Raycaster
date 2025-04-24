@@ -26,8 +26,8 @@ class MagicWeapon(crossitem.CrossItem):
             self.useable = False
 
     def use(self):
-        if self.useable == True and self.game.player.mana > 0:
+        if self.useable == True and self.game.player.entity.mana > 0:
             a = self.game.player.angle
             accuracy_offset = random.uniform(-self.accuracy, self.accuracy)
-            self.game.player.mana -= self.mana_cost
+            self.game.player.entity.mana -= self.mana_cost
             self.game.projectile_handler.fire(pygame.math.Vector2(self.game.player.x, self.game.player.y), pygame.math.Vector2(math.cos(self.game.player.angle+accuracy_offset), math.sin(self.game.player.angle+accuracy_offset)))
