@@ -15,14 +15,18 @@ class PLAYER:
         self.angle = PLAYER_ANGLE
         self.floor = math.floor(self.z)
 
-        self.held_item = MagicWeapon(game, "assets/sprites/sword.png")
+        self.held_item = MeleWeapon(game, "assets/sprites/sword.png")
 
-        self.health = 100
+        self.health = 50
         self.max_health = 100
-        self.mana = 100
+        self.mana = 50
         self.max_mana = 100
-        self.stamina = 100
+        self.stamina = 50
         self.max_stamina = 100
+
+        self.health_regen = 0.003
+        self.mana_regen = 0.01
+        self.stamina_regen = 0.02
 
     def check_wall(self, x, y):
         return (x, y) not in self.game.map.world_map[self.floor]
@@ -58,16 +62,13 @@ class PLAYER:
             self.dx += -speed_sin
             self.dy += speed_cos
 
-        if keys[pygame.K_e]:
+        if keys[pygame.K_SPACE]:
             self.held_item.use()
 
         if keys[pygame.K_r]:
             self.z += 0.1
         if keys[pygame.K_f]:
             self.z -= 0.1
-        
-        if keys[pygame.K_SPACE]:
-            self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
 
         self.check_wall_collision()
 
@@ -78,11 +79,32 @@ class PLAYER:
 
         self.angle %= math.tau
 
+    def regen_mana(self):
+        if self.mana < self.max_mana:
+            self.mana += self.mana_regen * self.game.delta_time
+        else:
+            self.mana = self.max_mana
+    def regen_health(self):
+        if self.health < self.max_health:
+            self.health += self.health_regen * self.game.delta_time
+        else:
+            self.health = self.max_health
+    def regen_stamina(self):
+        if self.stamina < self.max_stamina:
+            self.stamina += self.stamina_regen * self.game.delta_time
+        else:
+            self.stamina = self.max_stamina
+
+    def regen_all(self):
+        self.regen_health()
+        self.regen_mana()
+        self.regen_stamina()
 
     def update(self):
         if self.held_item != None:
             self.held_item.update()
         self.movement()
+        self.regen_all()
     
     def change_pos(self, pos):
         self.y = pos[1]
