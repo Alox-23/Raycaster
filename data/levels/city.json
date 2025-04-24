@@ -1,5 +1,5 @@
 {
-    "player-pos": [40, 32],
+    "player-pos": [40, 30],
 
 
     "fog-height" : 20,
@@ -19,7 +19,7 @@
     "doors" : [4, 5],
 
     "sprites": [
-        ["wall", [40, 32]]
+        
     ],
 
     "music" : "music.mp3",

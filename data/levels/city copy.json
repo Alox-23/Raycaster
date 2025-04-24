@@ -1,0 +1,36 @@
+{
+    "player-pos": [0, 0],
+
+
+    "fog-height" : 20,
+
+    "floor-color" : [110,200,110],
+
+    "roof-color" : [80,80,80],
+
+    "fog-color" : [255,255,255],
+
+    "fog-offset" : 250,
+
+    "fog-scale" : -5,
+
+    "sky" : "sky.png",
+
+    "doors" : [4, 5],
+
+    "sprites": [
+        
+    ],
+
+    "music" : "music.mp3",
+
+    "door-level" : {
+        "4": "level.json",
+        "5": "house1.json"
+    }, 
+
+    "level" : 
+    [
+        []
+    ]
+}

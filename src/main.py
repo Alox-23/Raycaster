@@ -28,10 +28,10 @@ class GAME:
     def new_game(self):
         self.sprite_handler = SpriteHandler(self)
         self.projectile_handler = ProjectileHandler(self)
-        self.player = PLAYER(self)
-        self.hud = Hud(self)
         self.object_renderer = ObjectRenderer(self)
         self.raycasting = RayCasting(self)
+        self.player = PLAYER(self)
+        self.hud = Hud(self)
         self.map = Map(self)
 
     def load_resize_buffer(self):
@@ -39,9 +39,9 @@ class GAME:
 
     def update(self):
         self.debug_text = ""
-        self.player.update()
         self.hud.update()
         self.raycasting.update()
+        self.player.update()
         self.sprite_handler.update()
         self.projectile_handler.update()
         self.delta_time = self.clock.tick(FPS)

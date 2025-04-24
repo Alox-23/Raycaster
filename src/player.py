@@ -3,6 +3,7 @@ import pygame
 from items.crossitem import *
 from items.mele_weapon import *
 from items.magic_weapon import *
+from sprites.entity import Entity
 import math
  
 class PLAYER:
@@ -16,6 +17,9 @@ class PLAYER:
         self.floor = math.floor(self.z)
 
         self.held_item = MeleWeapon(game, "assets/sprites/sword.png")
+
+        self.entity = Entity(game, pos=(self.x+0.02, self.y), p = self)
+        self.entity.update()
 
         self.health = 50
         self.max_health = 100
@@ -109,7 +113,9 @@ class PLAYER:
         if self.held_item != None:
             self.held_item.update()
         self.movement()
-        self.regen_all()
+        self.entity.update()
+        self.entity.x = self.x
+        self.entity.y = self.y
     
     def change_pos(self, pos):
         self.y = pos[1]
