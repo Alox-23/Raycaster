@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from crosshair import *
+from items.crosshair import *
 
 class Item:
     def __init__(self, game, path):
@@ -17,18 +17,23 @@ class Item:
         self.timer = 0
         self.useable = False
 
+        try:
+            self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)      
+        except:
+            self.scale = 600
+            self.rot_angle = 35
+            self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)
 
-        self.rot_angle = 35
-        self.scale = 600
-
-        self.image = pygame.transform.rotate(pygame.transform.scale(pygame.image.load(path), (self.scale, self.scale)), self.rot_angle)
         self.image.set_colorkey((0,0,0))
         
-        self.offsetx = -150
-        self.offsety = -200
         self.rect = self.image.get_rect()
 
-        self.calculate_rect()
+        try:
+            self.calculate_rect()
+        except:
+            self.offsetx = -200
+            self.offsety = -200
+            self.calculate_rect()
     
     def calculate_rect(self):
         

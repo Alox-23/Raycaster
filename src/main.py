@@ -5,11 +5,11 @@ from map import *
 from player import *
 from raycasting import *
 from object_renderer import *
-from sprite import *
-from sprite_handler import *
-from projectile_handler import *
+from sprites.sprite import *
+from sprites.sprite_handler import *
+from projectiles.projectile_handler import *
 from hud import *
-from crosshair import *
+from items.crosshair import *
 
 class GAME:
 
@@ -22,7 +22,7 @@ class GAME:
         self.resize_buffer = pygame.Surface(RES)
         self.clock = pygame.time.Clock()
         self.delta_time = 1
-        self.togle_text = True
+        self.togle_text = False
         self.new_game()
 
     def new_game(self):

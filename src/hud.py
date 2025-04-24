@@ -1,6 +1,6 @@
 import pygame
 from settings import *
-from item import *
+from items.item import *
 
 class Bar:
     def __init__(self, pos, m_val= 100, val = 50, height = 20, scale = 2, border_size = 3):

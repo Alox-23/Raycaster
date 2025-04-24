@@ -1,7 +1,7 @@
 import pygame
 from settings import *
-import sprite
-import projectile
+import sprites.sprite as sprite
+import projectiles.projectile as projectile
 import json
 
 class ProjectileHandler:

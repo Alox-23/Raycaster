@@ -1,4 +1,4 @@
-import sprite
+import sprites.sprite as sprite
 import pygame
 from settings import *
 

@@ -1,5 +1,5 @@
 import pygame
-from crossitem import CrossItem
+from items.crossitem import CrossItem
 
 class MeleWeapon(CrossItem):
     def __init__(self, game, path):

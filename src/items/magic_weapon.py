@@ -1,10 +1,14 @@
 import pygame
-import crossitem
+import items.crossitem as crossitem
 import math
 import random
 
 class MagicWeapon(crossitem.CrossItem):
     def __init__(self, game, path = "assets/sprites/magic_weapon.png"):
+        self.scale = 200
+        self.rot_angle = 35
+        self.offsetx = 100
+        self.offsety = -75
         super().__init__(game, path)
         self.timer_speed = 100
         self.accuracy = 0.01

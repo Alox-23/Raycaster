@@ -1,8 +1,8 @@
 from settings import *
 import pygame
-from crossitem import *
-from mele_weapon import *
-from magic_weapon import *
+from items.crossitem import *
+from items.mele_weapon import *
+from items.magic_weapon import *
 import math
  
 class PLAYER:
@@ -61,6 +61,11 @@ class PLAYER:
         if keys[pygame.K_d]:
             self.dx += -speed_sin
             self.dy += speed_cos
+
+        if keys[pygame.K_1]:
+            self.held_item = MeleWeapon(self.game, "assets/sprites/sword.png")
+        if keys[pygame.K_2]:
+            self.held_item = MagicWeapon(self.game, "assets/sprites/goblin/pixil-frame-0.png")
 
         if keys[pygame.K_SPACE]:
             self.held_item.use()

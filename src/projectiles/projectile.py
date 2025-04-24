@@ -1,8 +1,8 @@
 import pygame
-import sprite
+import sprites.sprite
 import math
 
-class ProjectileObject(sprite.SpriteObject):
+class ProjectileObject(sprites.sprite.SpriteObject):
     def __init__(self, game, dir = (10.5, 3.5), path = "assets/sprites/goblin/pixil-frame-0.png",
                   pos = (10.5, 3.5), scale = 0.2, shift = -0.675):
         super().__init__(game, pos = pos, path = path, scale = scale, shift = shift)

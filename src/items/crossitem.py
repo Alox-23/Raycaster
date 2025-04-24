@@ -1,6 +1,6 @@
 import pygame
-import item
-import crosshair
+import items.item as item
+import items.crosshair as crosshair
 
 class CrossItem(item.Item):
     def __init__(self, *args):
