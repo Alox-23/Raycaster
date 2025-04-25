@@ -1,91 +1,121 @@
 from settings import *
 import pygame
+from items.crossitem import *
+from items.mele_weapon import *
+from items.magic_weapon import *
+from sprites.entity import Entity
 import math
  
 class PLAYER:
     def __init__(self, game):
         self.game = game
+        self.speed = 0.007
         self.x, self.y = PLAYER_POS
-        self.z = 0
+        self.z = 0.5
+        self.dx, self.dy = 0, 0
         self.angle = PLAYER_ANGLE
-        self.vert_angle = 0
-        self.floor = 0
-        self.projectile_timer = 0
-        self.projectile_interval = 100
-        self.player_hands = pygame.image.load("assets/sprites/hands.png")
-        self.player_hands = pygame.transform.scale(self.player_hands, (100, 100))
-        self.player_hands_rect = self.player_hands.get_rect()
-        self.player_hands_rect.center = (HALF_WIDTH, 0)
+        self.floor = math.floor(self.z)
 
-        self.health = 100
+        self.held_item = MeleWeapon(game, "assets/sprites/sword.png")
+
+        self.entity = Entity(game, pos=(self.x+0.02, self.y), p = self)
+        self.entity.update()
+
+        self.health = 50
         self.max_health = 100
-        self.mana = 100
+        self.mana = 50
         self.max_mana = 100
-        self.stamina = 100
+        self.stamina = 50
         self.max_stamina = 100
+
+        self.health_regen = 0.003
+        self.mana_regen = 0.01
+        self.stamina_regen = 0.02
 
     def check_wall(self, x, y):
         return (x, y) not in self.game.map.world_map[self.floor]
 
-    def check_wall_collision(self, dx, dy):
+    def check_wall_collision(self):
         scale = PLAYER_SIZE_SCALE / self.game.delta_time
-        if self.check_wall(int(self.x + dx * scale), int(self.y)):
-            self.x += dx
-        if self.check_wall(int(self.x), int(self.y + dy * scale)):
-            self.y += dy
+        if self.check_wall(int(self.x + self.dx * scale), int(self.y)):
+            self.x += self.dx
+        if self.check_wall(int(self.x), int(self.y + self.dy * scale)):
+            self.y += self.dy
         
-        self.game.map.check_player_door_collision(self.floor, int(self.x + dx * scale), int(self.y + dy * scale))
+        self.game.map.check_player_door_collision(self.floor, int(self.x + self.dx * scale), int(self.y + self.dy * scale))
 
     def movement(self):
         sin_a = math.sin(self.angle)
         cos_a = math.cos(self.angle)
-        dx, dy = 0, 0
-        speed = PLAYER_SPEED * self.game.delta_time
+        self.dx, self.dy = 0, 0
+        speed = self.speed * self.game.delta_time
         speed_sin = speed * sin_a
         speed_cos = speed * cos_a
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w]:
-            dx += speed_cos
-            dy += speed_sin
+            self.dx += speed_cos
+            self.dy += speed_sin
         if keys[pygame.K_s]:
-            dx += -speed_cos
-            dy += -speed_sin
+            self.dx += -speed_cos
+            self.dy += -speed_sin
         if keys[pygame.K_a]:
-            dx += speed_sin
-            dy += -speed_cos
+            self.dx += speed_sin
+            self.dy += -speed_cos
         if keys[pygame.K_d]:
-            dx += -speed_sin
-            dy += speed_cos
+            self.dx += -speed_sin
+            self.dy += speed_cos
 
-        if keys[pygame.K_SPACE] and self.projectile_timer> self.projectile_interval:
-            self.projectile_timer = 0
-            self.mana-= 10
-            self.health-= 10
-            self.stamina-= 10
-            self.game.projectile_handler.fire(pygame.math.Vector2(self.x, self.y), pygame.math.Vector2(math.cos(self.angle), math.sin(self.angle)))
+        if keys[pygame.K_1]:
+            self.held_item = MeleWeapon(self.game, "assets/sprites/sword.png")
+        if keys[pygame.K_2]:
+            self.held_item = MagicWeapon(self.game, "assets/sprites/goblin/pixil-frame-0.png")
 
-        self.check_wall_collision(dx, dy)
+        if keys[pygame.K_SPACE]:
+            self.held_item.use()
+
+        if keys[pygame.K_r]:
+            self.z += 0.1
+        if keys[pygame.K_f]:
+            self.z -= 0.1
+
+        self.check_wall_collision()
 
         if keys[pygame.K_LEFT]:
             self.angle -= PLAYER_ROT_SPEED * self.game.delta_time
         if keys[pygame.K_RIGHT]:
             self.angle += PLAYER_ROT_SPEED * self.game.delta_time
 
-        if keys[pygame.K_UP] and self.vert_angle >= -200:
-            self.vert_angle -= PLAYER_VERT_ROT_SPEED * self.game.delta_time
-        if keys[pygame.K_DOWN] and self.vert_angle <= 150:
-            self.vert_angle += PLAYER_VERT_ROT_SPEED * self.game.delta_time
-
         self.angle %= math.tau
 
-    def draw(self):
-        pygame.draw.circle(self.game.screan, 'green', (self.x * 100, self.y * 100), 15)
+    def regen_mana(self):
+        if self.mana < self.max_mana:
+            self.mana += self.mana_regen * self.game.delta_time
+        else:
+            self.mana = self.max_mana
+    def regen_health(self):
+        if self.health < self.max_health:
+            self.health += self.health_regen * self.game.delta_time
+        else:
+            self.health = self.max_health
+    def regen_stamina(self):
+        if self.stamina < self.max_stamina:
+            self.stamina += self.stamina_regen * self.game.delta_time
+        else:
+            self.stamina = self.max_stamina
+
+    def regen_all(self):
+        self.regen_health()
+        self.regen_mana()
+        self.regen_stamina()
 
     def update(self):
-        if not self.projectile_timer > self.projectile_interval:
-            self.projectile_timer += 1 * self.game.delta_time
+        if self.held_item != None:
+            self.held_item.update()
         self.movement()
+        self.entity.update()
+        self.entity.x = self.x
+        self.entity.y = self.y
     
     def change_pos(self, pos):
         self.y = pos[1]

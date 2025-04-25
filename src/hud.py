@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from items.item import *
 
 class Bar:
     def __init__(self, pos, m_val= 100, val = 50, height = 20, scale = 2, border_size = 3):
@@ -54,36 +55,42 @@ class Hud:
     def __init__(self, game):
         self.game = game
 
-        self.hud_height = 100
-        self.image = pygame.Surface((WIDTH, self.hud_height))
-        self.image.set_colorkey((0,5,0))
+        self.image = pygame.Surface((WIDTH, HUD_HEIGHT))
+        self.image.set_colorkey((0,0,0))
 
         self.rect = self.image.get_rect()
-        self.rect.topleft = (0, HEIGHT - self.hud_height)
+        self.rect.topleft = (0, HEIGHT - HUD_HEIGHT)
 
-        self.mana = Bar((8, self.hud_height-25), height=15, border_size = 2)
-        self.stamina = Bar((8, self.hud_height-45), height=15 , border_size = 2)
-        self.health = Bar((8, self.hud_height-65), height=15 , border_size = 2)
-
-        self.game.player.player_hands_rect.center = (HALF_WIDTH, self.hud_height-50)
+        self.mana = Bar((8, HUD_HEIGHT-25), height=15, border_size = 2)
+        self.stamina = Bar((8, HUD_HEIGHT-45), height=15 , border_size = 2)
+        self.health = Bar((8, HUD_HEIGHT-65), height=15 , border_size = 2)
 
         self.mana.color = (0, 0, 255)
         self.health.color = (255, 0, 0)
         self.stamina.color = (0, 255, 0)
 
     def draw(self, display):
-        self.image.fill((0,5,0))
-        self.game.player.draw_hands(self.image)
+        self.image.fill((0,0,0))
+        self.draw_item()
         self.health.draw(self.image)
         self.mana.draw(self.image)
         self.stamina.draw(self.image)
         display.blit(self.image, self.rect)
 
-    def update(self):
-        self.health.update(self.game.player.health)
-        self.mana.update(self.game.player.mana)
-        self.stamina.update(self.game.player.stamina)
+    def draw_item(self):
+        if self.game.player.held_item == None:
+            return False
+        else:
+            try:
+                self.game.player.held_item.draw(self.image)
+            except:
+                print("Invalid player item")
 
-        self.health.max_val = self.game.player.max_health
-        self.mana.max_val = self.game.player.max_mana
-        self.stamina.max_val = self.game.player.max_stamina
+    def update(self):
+        self.health.update(self.game.player.entity.health)
+        self.mana.update(self.game.player.entity.mana)
+        self.stamina.update(self.game.player.entity.stamina)
+
+        self.health.max_val = self.game.player.entity.max_health
+        self.mana.max_val = self.game.player.entity.max_mana
+        self.stamina.max_val = self.game.player.entity.max_stamina

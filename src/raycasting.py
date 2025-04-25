@@ -29,7 +29,7 @@ class RayCasting:
                                                         (SCALE, proj_height))
                     wall_column_dark.fill(self.game.object_renderer.fog_color)
                     
-                    wall_pos = (ray * SCALE, HALF_HEIGHT - proj_height // 1.4 - (HALF_HEIGHT  // 4) - ((-self.game.player.z+floor-0.2) * proj_height)-self.game.player.vert_angle)
+                    wall_pos = (ray * SCALE, HALF_HEIGHT - ((floor-self.game.player.z+1) * proj_height))
 
                     if depth*self.game.object_renderer.fog_scale + self.game.object_renderer.fog_offset < 1:
                         wall_column_text.set_alpha(1)
@@ -102,7 +102,6 @@ class RayCasting:
                 depth, texture = depth_hor, texture_hor
                 x_hor %= 1
                 offset = (1 - x_hor) if sin_a > 0 else x_hor
-
 
 
             #remove fishbowl effect

@@ -9,6 +9,7 @@ class ObjectRenderer:
         self.game = game
         self.text_buffer = pygame.Surface((250, 150))
         #self.text_buffer.set_colorkey((0,0,0))
+        self.rects_to_render = []
         self.fog_scale = -15
         self.fog_offset = 300
         self.resize_buffer = game.resize_buffer
@@ -62,6 +63,7 @@ class ObjectRenderer:
                 self.floor_image.set_at((x, y), a)
 
         self.sky_offset = 0
+        
     def draw_text(self):
         t = ""
         y_cntr = 0
@@ -75,13 +77,15 @@ class ObjectRenderer:
                 t = ""
                 y_cntr += 1
         self.display.blit(self.text_buffer, (5,5))
-        
 
     def draw(self):
         self.draw_background()
         self.render_game_objects()
-        #self.game.player.draw_hands(self.resize_buffer)
         self.game.hud.draw(self.resize_buffer)
+        try:
+            self.game.player.held_item.crosshair.draw(self.resize_buffer)
+        except:
+            pass
         self.draw_resize_buffer()
         if self.game.togle_text == True:
             self.draw_text()
@@ -103,10 +107,10 @@ class ObjectRenderer:
         self.resize_buffer.fill(self.fog_color)
 
         self.sky_offset = (8.0 * math.degrees(self.game.player.angle)) % WIDTH
-        self.resize_buffer.blit(self.sky_image, (-self.sky_offset, 0-self.game.player.vert_angle-HALF_HEIGHT))
-        self.resize_buffer.blit(self.sky_image, (-self.sky_offset + WIDTH, 0-self.game.player.vert_angle-HALF_HEIGHT))
+        self.resize_buffer.blit(self.sky_image, (-self.sky_offset, -HALF_HEIGHT))
+        self.resize_buffer.blit(self.sky_image, (-self.sky_offset + WIDTH, -HALF_HEIGHT))
 
-        self.resize_buffer.blit(self.floor_image, (0, HALF_HEIGHT-self.game.player.vert_angle-50))
+        self.resize_buffer.blit(self.floor_image, (0, HALF_HEIGHT))
 
     def render_game_objects(self):
         list_objects = sorted(self.game.raycasting.objects_to_render, key = lambda t: t[0], reverse=True)
