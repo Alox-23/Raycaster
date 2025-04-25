@@ -1,5 +1,6 @@
 import pygame
 import sys
+import time
 from settings import *
 from map import *
 from player import *
@@ -40,12 +41,20 @@ class GAME:
     def update(self):
         self.debug_text = ""
         self.hud.update()
+        rstart = time.time()
         self.raycasting.update()
+        rend = time.time()
+        self.debug_text += f"Raycasting time: {rend-rstart :.3f};"
+        pstart = time.time()
         self.player.update()
+        pend = time.time()
+        self.debug_text += f"Player time: {pend-pstart :.5f};"
+        sstart = time.time()
         self.sprite_handler.update()
         self.projectile_handler.update()
+        send = time.time()
+        self.debug_text += f"Sprite time: {send-sstart :.5f};"
         self.delta_time = self.clock.tick(FPS)
-        self.update_text()
         
     def update_text(self):
         self.debug_text += f'FPS: {self.clock.get_fps() :.1f}' + ";"
@@ -56,7 +65,10 @@ class GAME:
         self.debug_text += "Projectiles: " + str(len(self.projectile_handler.sprites)) + ";"
 
     def draw(self):
+        dstart = time.time()
         self.object_renderer.draw()
+        dend = time.time()
+        self.debug_text += f"Draw time: {dend-dstart :.3f};"
 
     def check_events(self):
         for event in pygame.event.get():
@@ -75,6 +87,10 @@ class GAME:
                 break
             self.update()
             self.draw()
+            self.update_text()
+            if self.togle_text:
+                self.object_renderer.draw_text()
+                pygame.display.update()
 
 
 if __name__ == '__main__':

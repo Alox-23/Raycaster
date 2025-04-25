@@ -20,8 +20,6 @@ class Map:
             self.change_level(self.world_map[floor][(x,y)].level)
 
     def change_level(self, level_path, inside = False):
-        self.game.object_renderer.load_resize_buffer()
-        pygame.display.update()
         self.get_data("data/levels/"+level_path)
         self.active_level = Level(self.game, self.data)
         

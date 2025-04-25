@@ -31,7 +31,7 @@ class SpriteObject:
         image = pygame.transform.scale(self.image, (proj_width, proj_height))
         self.draw_image = image
         self.sprite_half_width = proj_width // 2
-        pos = self.resize_buffer_x - self.sprite_half_width, HALF_HEIGHT - ((self.SPRITE_HEIGHT_SHIFT-self.player.z+1) * proj_height)
+        pos = self.resize_buffer_x - self.sprite_half_width, HALF_HEIGHT - ((self.SPRITE_HEIGHT_SHIFT/1.03-self.player.z+1) * proj_height)
         self.rect = image.get_rect()
         self.rect.topleft = pos
         self.game.raycasting.objects_to_render.append((self.norm_dist, image, pos))

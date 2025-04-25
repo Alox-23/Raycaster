@@ -7,8 +7,8 @@ class ObjectRenderer:
     def __init__(self, game):
         
         self.game = game
-        self.text_buffer = pygame.Surface((250, 150))
-        #self.text_buffer.set_colorkey((0,0,0))
+        self.text_buffer = pygame.Surface((250, HEIGHT- 5))
+        self.text_buffer.set_colorkey((255,255,255))
         self.rects_to_render = []
         self.fog_scale = -15
         self.fog_offset = 300
@@ -67,12 +67,12 @@ class ObjectRenderer:
     def draw_text(self):
         t = ""
         y_cntr = 0
-        self.text_buffer.fill((0,0,255))
+        self.text_buffer.fill((255,255,255))
         for i in self.game.debug_text:
             if i != ";":
                 t += i
             else:
-                t_surf = self.game.font.render(t, False, (0,255,0))
+                t_surf = self.game.font.render(t, False, (0,0,0))
                 self.text_buffer.blit(t_surf, (5, 4+y_cntr*20))
                 t = ""
                 y_cntr += 1
@@ -87,8 +87,6 @@ class ObjectRenderer:
         except:
             pass
         self.draw_resize_buffer()
-        if self.game.togle_text == True:
-            self.draw_text()
         pygame.display.flip()
 
     def draw_resize_buffer(self):
