@@ -5,7 +5,7 @@ import random
 class Map:
     def __init__(self, game):
         self.game = game
-        self.change_level("city.json")
+        self.change_level("level.json")
         self.set_level()
 
     def set_level(self):

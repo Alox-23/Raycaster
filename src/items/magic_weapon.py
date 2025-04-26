@@ -10,11 +10,11 @@ class MagicWeapon(crossitem.CrossItem):
         self.offsetx = 100
         self.offsety = -75
         super().__init__(game, path)
-        self.timer_speed = 100
-        self.accuracy = 0.01
-        self.range = 100
+        self.timer_speed =0
+        self.accuracy = 0.2
+        self.range = 5
 
-        self.mana_cost = 10
+        self.mana_cost = 0
 
         #damage is calculated by projectile damage
 
@@ -30,4 +30,4 @@ class MagicWeapon(crossitem.CrossItem):
             a = self.game.player.angle
             accuracy_offset = random.uniform(-self.accuracy, self.accuracy)
             self.game.player.entity.mana -= self.mana_cost
-            self.game.projectile_handler.fire(pygame.math.Vector2(self.game.player.x, self.game.player.y), pygame.math.Vector2(math.cos(self.game.player.angle+accuracy_offset), math.sin(self.game.player.angle+accuracy_offset)))
+            self.game.projectile_handler.fire(pygame.math.Vector2(self.game.player.x, self.game.player.y), pygame.math.Vector2(math.cos(self.game.player.angle+accuracy_offset), math.sin(self.game.player.angle+accuracy_offset)), self.range)
