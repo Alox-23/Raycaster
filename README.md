@@ -1,0 +1,1 @@
+this is one of my most sofisticated projects, check out branch develop which containes the coolest features! these include: raycasting with textures, fog based on distance, level edditor, sprites, magic, projectiles, mele weapons
